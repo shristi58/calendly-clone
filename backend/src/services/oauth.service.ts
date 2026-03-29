@@ -6,26 +6,56 @@ import type { User } from '../generated/prisma/client.js';
 
 // ── CSRF helpers ─────────────────────────────────────────────────────────────
 
-/** Generate a cryptographically-secure CSRF nonce for the OAuth state param */
+const STATE_SECRET = process.env.JWT_SECRET || 'oauth-state-secret';
+
+/**
+ * Generate a self-contained, HMAC-signed OAuth state parameter.
+ * No cookie is needed — the state carries its own integrity proof.
+ */
 export const generateOAuthState = (intent: 'login' | 'link', userId?: string): string => {
   const nonce = crypto.randomBytes(16).toString('hex');
-  // Encode intent + optional userId into the state so we can recover it on callback
-  const payload = JSON.stringify({ nonce, intent, userId: userId ?? null });
-  return Buffer.from(payload).toString('base64url');
+  const ts = Date.now();
+  const payload = JSON.stringify({ nonce, intent, userId: userId ?? null, ts });
+  const data = Buffer.from(payload).toString('base64url');
+  const sig = crypto.createHmac('sha256', STATE_SECRET).update(data).digest('base64url');
+  return `${data}.${sig}`;
 };
 
-/** Parse and validate the state string received in the OAuth callback */
-export const parseOAuthState = (state: string): { nonce: string; intent: 'login' | 'link'; userId: string | null } => {
+/**
+ * Verify and parse the HMAC-signed state received in the OAuth callback.
+ * Throws if the signature is invalid or the state has expired (>10 min).
+ */
+export const verifyOAuthState = (state: string): { nonce: string; intent: 'login' | 'link'; userId: string | null } => {
+  const dotIdx = state.lastIndexOf('.');
+  if (dotIdx === -1) throw new AppError(400, 'Invalid OAuth state format');
+
+  const data = state.substring(0, dotIdx);
+  const sig = state.substring(dotIdx + 1);
+  const expectedSig = crypto.createHmac('sha256', STATE_SECRET).update(data).digest('base64url');
+
+  if (!crypto.timingSafeEqual(Buffer.from(sig), Buffer.from(expectedSig))) {
+    throw new AppError(400, 'OAuth state signature mismatch — possible CSRF attack');
+  }
+
   try {
-    const decoded = Buffer.from(state, 'base64url').toString('utf-8');
-    return JSON.parse(decoded);
-  } catch {
+    const decoded = Buffer.from(data, 'base64url').toString('utf-8');
+    const parsed = JSON.parse(decoded);
+
+    // Reject states older than 10 minutes
+    if (parsed.ts && Date.now() - parsed.ts > 10 * 60 * 1000) {
+      throw new AppError(400, 'OAuth state expired');
+    }
+
+    return { nonce: parsed.nonce, intent: parsed.intent, userId: parsed.userId };
+  } catch (e) {
+    if (e instanceof AppError) throw e;
     throw new AppError(400, 'Invalid OAuth state parameter');
   }
 };
 
-/** Extract the nonce from a state string (for cookie validation) */
-export const extractNonce = (state: string): string => parseOAuthState(state).nonce;
+// Legacy aliases kept for backward compat but no longer needed by controller
+export const parseOAuthState = verifyOAuthState;
+export const extractNonce = (_state: string): string => 'unused';
 
 // ── Username generator ────────────────────────────────────────────────────────
 
@@ -68,14 +98,10 @@ export class OAuthService {
   static async handleGoogleCallback(
     code: string,
     state: string,
-    storedNonce: string,
     linkingUserId?: string | null
   ): Promise<User> {
-    // 1. CSRF validation
-    const { nonce, intent, userId: stateUserId } = parseOAuthState(state);
-    if (nonce !== storedNonce) {
-      throw new AppError(400, 'OAuth state mismatch — possible CSRF attack');
-    }
+    // 1. Parse state (HMAC already verified by controller)
+    const { intent, userId: stateUserId } = verifyOAuthState(state);
 
     // 2. Exchange code for tokens
     const oauth2Client = this.getGoogleAuthClient();
@@ -130,14 +156,10 @@ export class OAuthService {
   static async handleMicrosoftCallback(
     code: string,
     state: string,
-    storedNonce: string,
     linkingUserId?: string | null
   ): Promise<User> {
-    // 1. CSRF validation
-    const { nonce, intent, userId: stateUserId } = parseOAuthState(state);
-    if (nonce !== storedNonce) {
-      throw new AppError(400, 'OAuth state mismatch — possible CSRF attack');
-    }
+    // 1. Parse state (HMAC already verified by controller)
+    const { intent, userId: stateUserId } = verifyOAuthState(state);
 
     const tenantId = process.env.MICROSOFT_TENANT_ID || 'common';
     const clientId = process.env.MICROSOFT_CLIENT_ID!;

@@ -101,7 +101,7 @@ export class AuthController {
       const refreshToken = await createRefreshSession(user.id, req);
       setAuthCookies(res, accessToken, refreshToken);
 
-      res.status(201).json({ status: 'success', data: { user } });
+      res.status(201).json({ status: 'success', data: { user: { ...user, plan: 'PROFESSIONAL' } } });
     } catch (error) {
       next(error);
     }
@@ -139,6 +139,7 @@ export class AuthController {
             dateFormat: user.dateFormat,
             timeFormat: user.timeFormat,
             country: user.country,
+            plan: 'PROFESSIONAL',
           },
         },
       });
@@ -154,7 +155,7 @@ export class AuthController {
         select: USER_SELECT,
       });
       if (!user) throw new AppError(404, 'User not found');
-      res.status(200).json({ status: 'success', data: user });
+      res.status(200).json({ status: 'success', data: { ...user, plan: 'PROFESSIONAL' } });
     } catch (error) {
       next(error);
     }
@@ -200,7 +201,7 @@ export class AuthController {
         data,
         select: USER_SELECT,
       });
-      res.status(200).json({ status: 'success', data: user });
+      res.status(200).json({ status: 'success', data: { ...user, plan: 'PROFESSIONAL' } });
     } catch (error) {
       next(error);
     }
@@ -307,7 +308,7 @@ export class AuthController {
       const newRefreshToken = await createRefreshSession(user.id, req);
       setAuthCookies(res, newAccessToken, newRefreshToken);
 
-      res.status(200).json({ status: 'success', data: user });
+      res.status(200).json({ status: 'success', data: { ...user, plan: 'PROFESSIONAL' } });
     } catch (error) {
       next(error);
     }

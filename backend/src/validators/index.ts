@@ -190,3 +190,12 @@ export const updateQuestionSchema = z.object({
   options: z.array(z.string().min(1)).min(2).optional().nullable(),
   order: z.number().int().min(0).optional(),
 });
+
+// ─────────────────────────────────────────────────
+// Analytics
+// ─────────────────────────────────────────────────
+
+export const reportingQuerySchema = z.object({
+  start: z.string().optional(), // Can parse to Date or Unix depending on what frontend sends
+  end: z.string().optional(),
+});

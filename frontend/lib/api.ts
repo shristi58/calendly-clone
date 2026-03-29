@@ -153,3 +153,13 @@ export async function apiWithToast<T>(
     return undefined;
   }
 }
+
+// ── Analytics API ────────────────────────────────────────────────
+
+export async function getAdminDashboardMetrics() {
+  return api.get<any>("/analytics/admin-dashboard");
+}
+
+export async function getReportingStats(start: number, end: number) {
+  return api.get<any>(`/analytics/reporting?start=${start}&end=${end}`);
+}

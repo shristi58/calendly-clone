@@ -17,9 +17,9 @@ import {
   Link2,
   CalendarDays,
   Clock,
-  Users,
-  GitBranch,
-  Puzzle,
+  Contact,
+  Share2,
+  LayoutGrid,
   ArrowRightLeft,
   CircleDollarSign,
   BarChart,
@@ -27,7 +27,10 @@ import {
   HelpCircle,
   ChevronsLeft,
   Zap,
-  Globe
+  Globe,
+  ExternalLink,
+  MessageSquare,
+  Bookmark
 } from "lucide-react";
 
 const NAV_ITEMS = [
@@ -49,17 +52,17 @@ const NAV_ITEMS = [
   {
     label: "Contacts",
     href: "/app/contacts/user/me",
-    icon: Users,
+    icon: Contact,
   },
   {
     label: "Workflows",
     href: "/app/workflows/user/me",
-    icon: GitBranch,
+    icon: Share2,
   },
   {
     label: "Integrations & apps",
     href: "/integrations",
-    icon: Puzzle,
+    icon: LayoutGrid,
   },
   {
     label: "Routing",
@@ -71,18 +74,18 @@ const NAV_ITEMS = [
 const BOTTOM_ITEMS = [
   {
     label: "Upgrade plan",
-    href: "/upgrade",
+    href: "?planSelection=true",
     icon: CircleDollarSign,
     isButton: true,
   },
   {
     label: "Analytics",
-    href: "/analytics",
+    href: "/app/organization/reporting",
     icon: BarChart,
   },
   {
     label: "Admin center",
-    href: "/admin",
+    href: "/app/admin/dashboard",
     icon: Shield,
   },
   {
@@ -192,7 +195,7 @@ export function Sidebar() {
           if (item.isButton) {
             return (
               <div key={item.label} className="px-1 py-2">
-                <Link href={item.href}>
+                <Link href={`${pathname}?planSelection=true`}>
                   <Button
                     variant="outline"
                     className="w-full h-10 rounded-lg justify-start gap-3 border-[#D9D9D9] text-[#1A1A1A] hover:bg-[#EBEBEB] font-medium bg-transparent shadow-none"
@@ -204,21 +207,59 @@ export function Sidebar() {
               </div>
             );
           }
+          if (item.hasDropdown) {
+            return (
+              <DropdownMenu key={item.label}>
+                <DropdownMenuTrigger asChild>
+                  <button className="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm text-[#1A1A1A] font-medium hover:bg-[#EBEBEB] transition-colors group focus:outline-none w-full">
+                    <div className="flex items-center gap-3">
+                      <item.icon className="size-5 text-[#4D5055] group-hover:text-[#1A1A1A]" strokeWidth={1.75} />
+                      {item.label}
+                    </div>
+                    <svg width="10" height="6" viewBox="0 0 10 6" fill="none" className="text-[#1A1A1A]">
+                      <path d="M1 1L5 5L9 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" side="right" className="w-[240px] p-0 py-2 rounded-xl shadow-[0_4px_14px_rgba(0,0,0,0.1)] border border-[#E5E5E5] bg-white text-[#1A1A1A]">
+                  <DropdownMenuItem className="px-4 py-2 hover:bg-[#F2F2F2] cursor-pointer focus:bg-[#F2F2F2] text-[15px]">
+                    <ExternalLink className="mr-3 size-[18px] text-[#0A2540]" strokeWidth={2} />
+                    Help center
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="px-4 py-2 hover:bg-[#F2F2F2] cursor-pointer focus:bg-[#F2F2F2] text-[15px]">
+                    <ExternalLink className="mr-3 size-[18px] text-[#0A2540]" strokeWidth={2} />
+                    Calendly Community
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="px-4 py-2 hover:bg-[#F2F2F2] cursor-pointer focus:bg-[#F2F2F2] text-[15px]">
+                    <ExternalLink className="mr-3 size-[18px] text-[#0A2540]" strokeWidth={2} />
+                    What's new
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="px-4 py-2 hover:bg-[#F2F2F2] cursor-pointer focus:bg-[#F2F2F2] text-[15px] mt-1">
+                    <Bookmark className="mr-3 size-[18px] text-[#0A2540]" strokeWidth={2} />
+                    Get started guide
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="px-4 py-2 hover:bg-[#F2F2F2] cursor-pointer focus:bg-[#F2F2F2] text-[15px] mt-1">
+                    <MessageSquare className="mr-3 size-[18px] text-[#0A2540]" strokeWidth={2} />
+                    Chat with us
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="px-4 py-2 hover:bg-[#F2F2F2] cursor-pointer focus:bg-[#F2F2F2] text-[15px]">
+                    <MessageSquare className="mr-3 size-[18px] text-[#0A2540]" strokeWidth={2} />
+                    Give feedback
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            );
+          }
           return (
             <Link
               key={item.label}
               href={item.href}
-              className="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm text-[#1A1A1A] font-medium hover:bg-[#EBEBEB] transition-colors group"
+              className="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm text-[#1A1A1A] font-medium hover:bg-[#EBEBEB] transition-colors group focus:outline-none"
             >
               <div className="flex items-center gap-3">
                 <item.icon className="size-5 text-[#4D5055] group-hover:text-[#1A1A1A]" strokeWidth={1.75} />
                 {item.label}
               </div>
-              {item.hasDropdown && (
-                <svg width="10" height="6" viewBox="0 0 10 6" fill="none" className="text-[#1A1A1A]">
-                  <path d="M1 1L5 5L9 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              )}
             </Link>
           );
         })}
