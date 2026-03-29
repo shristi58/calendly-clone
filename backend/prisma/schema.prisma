@@ -1,0 +1,253 @@
+generator client {
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "esm"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─────────────────────────────────────────────────
+// User & Authentication
+// ─────────────────────────────────────────────────
+
+model User {
+  id             String         @id @default(uuid())
+  username       String?        @unique
+  name           String
+  email          String         @unique
+  password       String?        // null for OAuth-only users
+  timezone       String         @default("UTC")
+  
+  // Profile settings extensions
+  avatarUrl      String?
+  welcomeMessage String?
+  language       String         @default("English")
+  dateFormat     String         @default("MM/DD/YYYY")
+  timeFormat     String         @default("12h")
+  country        String         @default("United States")
+
+  eventTypes     EventType[]
+  schedules      Schedule[]
+  teamLinks      TeamMember[]
+  oauthAccounts  OAuthAccount[]
+  sessions       Session[]
+
+  isOnboarded    Boolean        @default(false)
+  role           String?
+
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  @@index([email])
+}
+
+model OAuthAccount {
+  id                String    @id @default(uuid())
+  userId            String
+  provider          String    // "google", "microsoft"
+  providerAccountId String?
+  accessToken       String
+  refreshToken      String?
+  expiryDate        DateTime?
+
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, provider])
+  @@index([userId])
+}
+
+// ─────────────────────────────────────────────────
+// Sessions & Security
+// ─────────────────────────────────────────────────
+
+model Session {
+  id           String   @id @default(uuid())
+  userId       String
+  token        String   @unique // Refresh token or revocable token
+  expiresAt    DateTime
+  isRevoked    Boolean  @default(false)
+  ipAddress    String?
+  userAgent    String?
+
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt    DateTime @default(now())
+
+  @@index([userId])
+  @@index([token])
+}
+
+
+// ─────────────────────────────────────────────────
+// Scheduling & Availability
+// ─────────────────────────────────────────────────
+
+model Schedule {
+  id             String                 @id @default(uuid())
+  userId         String
+  name           String                 // e.g., "Working Hours"
+  isDefault      Boolean                @default(false)
+
+  user           User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  availabilities Availability[]
+  overrides      AvailabilityOverride[]
+  eventTypes     EventType[]
+
+  createdAt      DateTime               @default(now())
+  updatedAt      DateTime               @updatedAt
+
+  @@index([userId])
+}
+
+model Availability {
+  id          String    @id @default(uuid())
+  scheduleId  String
+  dayOfWeek   Int       // 0 = Sunday, 6 = Saturday
+  startTime   String    // "HH:mm" format
+  endTime     String    // "HH:mm" format
+
+  schedule    Schedule  @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
+
+  @@unique([scheduleId, dayOfWeek, startTime, endTime])
+  @@index([scheduleId])
+}
+
+model AvailabilityOverride {
+  id          String    @id @default(uuid())
+  scheduleId  String
+  date        String    // "YYYY-MM-DD" format
+  startTime   String?   // null = entire day blocked
+  endTime     String?   // null = entire day blocked
+
+  schedule    Schedule  @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
+
+  @@index([scheduleId, date])
+}
+
+// ─────────────────────────────────────────────────
+// Teams
+// ─────────────────────────────────────────────────
+
+model Team {
+  id      String       @id @default(uuid())
+  name    String
+  members TeamMember[]
+  events  EventType[]
+}
+
+model TeamMember {
+  userId String
+  teamId String
+
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  team   Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  @@id([userId, teamId])
+}
+
+// ─────────────────────────────────────────────────
+// Event Types
+// ─────────────────────────────────────────────────
+
+model EventType {
+  id             String    @id @default(uuid())
+  userId         String
+  name           String
+  slug           String    @unique
+  description    String?
+  duration       Int       // minutes
+  color          String    @default("#0069ff")
+  isActive       Boolean   @default(true)
+  bufferBefore   Int       @default(0)  // minutes
+  bufferAfter    Int       @default(0)  // minutes
+  location       String?   // "zoom", "google_meet", "microsoft_teams", "phone", "in_person"
+
+  scheduleId     String?
+  teamId         String?
+  maxInvitees    Int       @default(1)
+  schedulingType String    @default("solo") // "solo" | "round_robin" | "collective"
+
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  schedule       Schedule? @relation(fields: [scheduleId], references: [id], onDelete: SetNull)
+  team           Team?     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  bookings       Booking[]
+  questions      Question[]
+
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([userId])
+  @@index([slug])
+}
+
+// ─────────────────────────────────────────────────
+// Custom Invitee Questions
+// ─────────────────────────────────────────────────
+
+model Question {
+  id          String    @id @default(uuid())
+  eventTypeId String
+  question    String
+  type        String    @default("text")  // "text" | "textarea" | "dropdown" | "radio"
+  required    Boolean   @default(true)
+  options     Json?     // ["Option A", "Option B"] for dropdown/radio types
+  order       Int       @default(0)
+
+  eventType   EventType @relation(fields: [eventTypeId], references: [id], onDelete: Cascade)
+  answers     Answer[]
+
+  @@index([eventTypeId])
+}
+
+// ─────────────────────────────────────────────────
+// Bookings
+// ─────────────────────────────────────────────────
+
+model Booking {
+  id              String    @id @default(uuid())
+  eventTypeId     String
+  inviteeName     String
+  inviteeEmail    String
+  startTime       DateTime
+  endTime         DateTime
+  timezone        String    @default("UTC") // invitee's timezone
+  status          String    @default("scheduled") // "scheduled" | "cancelled" | "rescheduled"
+  cancelReason    String?
+
+  seatNumber      Int       @default(1)
+  meetingLink     String?
+  meetingProvider String?
+
+  eventType       EventType @relation(fields: [eventTypeId], references: [id], onDelete: Cascade)
+  answers         Answer[]
+
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([eventTypeId, startTime, status])
+  @@index([startTime])
+  @@index([status])
+  @@index([inviteeEmail])
+}
+
+// ─────────────────────────────────────────────────
+// Invitee Answers
+// ─────────────────────────────────────────────────
+
+model Answer {
+  id         String   @id @default(uuid())
+  bookingId  String
+  questionId String
+  answer     String
+
+  booking    Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@index([bookingId])
+  @@index([questionId])
+}
