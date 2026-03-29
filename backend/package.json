@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "postinstall": "prisma generate",
+    "postinstall": "prisma generate && npm run build",
     "dev": "tsx watch src/server.ts",
     "dev:worker": "tsx watch src/jobs/email.worker.ts",
     "build": "tsc",
@@ -14,7 +14,7 @@
     "test:watch": "vitest"
   },
   "keywords": [],
-  "author": "",
+  "author": "Kumari Shiristi",
   "license": "ISC",
   "type": "module",
   "dependencies": {

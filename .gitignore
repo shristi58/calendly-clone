@@ -90,3 +90,4 @@ calendly_svgs.json
 calendly.html
 extract_svgs.js
 scripts/integration-test.mjs
+backend/src/wipe.ts
