@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
+import Script from "next/script";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -21,7 +22,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} h-full antialiased`}>
+    <html lang="en" className={`${inter.variable} h-full antialiased`} suppressHydrationWarning>
       <body className="min-h-full flex flex-col font-sans">
         {children}
         <Toaster
@@ -34,6 +35,20 @@ export default function RootLayout({
             },
           }}
         />
+        <Script id="crisp-chat" strategy="afterInteractive">
+          {`
+            window.$crisp = [];
+            window.CRISP_WEBSITE_ID = "d5ad2f86-76a1-4bb9-bff7-c44251f2741a";
+
+            (function() {
+              var d = document;
+              var s = d.createElement("script");
+              s.src = "https://client.crisp.chat/l.js";
+              s.async = 1;
+              d.getElementsByTagName("head")[0].appendChild(s);
+            })();
+          `}
+        </Script>
       </body>
     </html>
   );

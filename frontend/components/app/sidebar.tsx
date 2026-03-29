@@ -53,21 +53,25 @@ const NAV_ITEMS = [
     label: "Contacts",
     href: "/app/contacts/user/me",
     icon: Contact,
+    isComingSoon: true,
   },
   {
     label: "Workflows",
     href: "/app/workflows/user/me",
     icon: Share2,
+    isComingSoon: true,
   },
   {
     label: "Integrations & apps",
     href: "/integrations",
     icon: LayoutGrid,
+    isComingSoon: true,
   },
   {
     label: "Routing",
     href: "/app/routing/forms/user/me",
     icon: ArrowRightLeft,
+    isComingSoon: true,
   },
 ];
 
@@ -174,12 +178,18 @@ export function Sidebar() {
               >
                 <item.icon
                   className={cn(
-                    "size-5",
+                    "size-5 shrink-0",
                     active ? "text-[#006BFF]" : "text-[#4D5055] group-hover:text-[#1A1A1A]"
                   )}
                   strokeWidth={1.75}
                 />
-                {item.label}
+                <span className="truncate">{item.label}</span>
+                
+                {"isComingSoon" in item && item.isComingSoon && (
+                  <span className="ml-auto text-[10px] font-bold text-[#808080] bg-[#EDEDED] px-1.5 py-0.5 rounded-[4px] leading-tight shrink-0 uppercase tracking-tight">
+                    Soon
+                  </span>
+                )}
                 
                 {active && (
                   <div className="absolute left-0 top-1.5 bottom-1.5 w-[3px] bg-[#006BFF] rounded-r-full" />
