@@ -28,7 +28,7 @@ export const emailWorker = new Worker('emailQueue', async (job: Job) => {
     // In dev mode without real API key, log to console
     if (process.env.RESEND_API_KEY) {
       await resend.emails.send({
-        from: 'Calendly Clone <notifications@resend.dev>', // Update with real domain eventually
+        from: process.env.RESEND_FROM_EMAIL || 'Calendly Clone <notifications@mail.scire.in>', // Using verified domain
         to: [booking.inviteeEmail, booking.eventType.user.email],
         subject: `Confirmed: ${booking.eventType.name} with ${booking.eventType.user.name}`,
         text: `Hi ${booking.inviteeName},\n\nYour meeting "${booking.eventType.name}" with ${booking.eventType.user.name} is confirmed for ${startTimeFormatted}.${meetingLinkText}\n\nThanks,\nCalendly Team`
@@ -51,7 +51,7 @@ export const emailWorker = new Worker('emailQueue', async (job: Job) => {
     
     if (process.env.RESEND_API_KEY) {
       await resend.emails.send({
-        from: 'Calendly Clone <notifications@resend.dev>',
+        from: process.env.RESEND_FROM_EMAIL || 'Calendly Clone <notifications@mail.scire.in>',
         to: [booking.inviteeEmail, booking.eventType.user.email],
         subject: `Canceled: ${booking.eventType.name} with ${booking.eventType.user.name}`,
         text: `Hi ${booking.inviteeName},\n\nYour meeting "${booking.eventType.name}" for ${startTimeFormatted} has been canceled.\n\nReason: ${cancelReason || 'No reason provided'}\n\nThanks,\nCalendly Team`
@@ -75,7 +75,7 @@ export const emailWorker = new Worker('emailQueue', async (job: Job) => {
     
     if (process.env.RESEND_API_KEY) {
       await resend.emails.send({
-        from: 'Calendly Clone <notifications@resend.dev>',
+        from: process.env.RESEND_FROM_EMAIL || 'Calendly Clone <notifications@resend.dev>',
         to: [booking.inviteeEmail, booking.eventType.user.email],
         subject: `Rescheduled: ${booking.eventType.name} with ${booking.eventType.user.name}`,
         text: `Hi ${booking.inviteeName},\n\nYour meeting "${booking.eventType.name}" with ${booking.eventType.user.name} has been rescheduled to ${startTimeFormatted}.${meetingLinkText}\n\nThanks,\nCalendly Team`
