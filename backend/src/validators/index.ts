@@ -129,6 +129,7 @@ export const createBookingSchema = z.object({
   inviteeEmail: z.string().email('Invalid email address'),
   startTime: z.string().datetime({ message: 'startTime must be a valid ISO 8601 datetime' }),
   timezone: z.string().max(50).optional(),
+  guestNotes: z.string().max(1000).optional(),
   answers: z.array(z.object({
     questionId: z.string().uuid(),
     answer: z.string().min(1, 'Answer is required'),

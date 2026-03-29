@@ -224,6 +224,7 @@ export const BookingScalarFieldEnum = {
   timezone: 'timezone',
   status: 'status',
   cancelReason: 'cancelReason',
+  guestNotes: 'guestNotes',
   seatNumber: 'seatNumber',
   meetingLink: 'meetingLink',
   meetingProvider: 'meetingProvider',

@@ -118,9 +118,11 @@ export default function BookingPage({
         return;
       }
 
-      // Build answers array
+      // Build answers array and extract generic notes
+      const guestNotes = data.answers["notes"]?.trim() || undefined;
+
       const answers = Object.entries(data.answers)
-        .filter(([, value]) => value.trim() !== "")
+        .filter(([key, value]) => key !== "notes" && value.trim() !== "")
         .map(([questionId, answer]) => ({
           questionId,
           answer,
@@ -132,6 +134,7 @@ export default function BookingPage({
         inviteeEmail: data.inviteeEmail,
         startTime: matchingSlot,
         timezone,
+        guestNotes,
         answers: answers.length > 0 ? answers : undefined,
       };
 

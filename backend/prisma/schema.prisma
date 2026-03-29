@@ -218,6 +218,7 @@ model Booking {
   timezone        String    @default("UTC") // invitee's timezone
   status          String    @default("scheduled") // "scheduled" | "cancelled" | "rescheduled"
   cancelReason    String?
+  guestNotes      String?
 
   seatNumber      Int       @default(1)
   meetingLink     String?

@@ -44,6 +44,7 @@ export type BookingMinAggregateOutputType = {
   timezone: string | null
   status: string | null
   cancelReason: string | null
+  guestNotes: string | null
   seatNumber: number | null
   meetingLink: string | null
   meetingProvider: string | null
@@ -61,6 +62,7 @@ export type BookingMaxAggregateOutputType = {
   timezone: string | null
   status: string | null
   cancelReason: string | null
+  guestNotes: string | null
   seatNumber: number | null
   meetingLink: string | null
   meetingProvider: string | null
@@ -78,6 +80,7 @@ export type BookingCountAggregateOutputType = {
   timezone: number
   status: number
   cancelReason: number
+  guestNotes: number
   seatNumber: number
   meetingLink: number
   meetingProvider: number
@@ -105,6 +108,7 @@ export type BookingMinAggregateInputType = {
   timezone?: true
   status?: true
   cancelReason?: true
+  guestNotes?: true
   seatNumber?: true
   meetingLink?: true
   meetingProvider?: true
@@ -122,6 +126,7 @@ export type BookingMaxAggregateInputType = {
   timezone?: true
   status?: true
   cancelReason?: true
+  guestNotes?: true
   seatNumber?: true
   meetingLink?: true
   meetingProvider?: true
@@ -139,6 +144,7 @@ export type BookingCountAggregateInputType = {
   timezone?: true
   status?: true
   cancelReason?: true
+  guestNotes?: true
   seatNumber?: true
   meetingLink?: true
   meetingProvider?: true
@@ -243,6 +249,7 @@ export type BookingGroupByOutputType = {
   timezone: string
   status: string
   cancelReason: string | null
+  guestNotes: string | null
   seatNumber: number
   meetingLink: string | null
   meetingProvider: string | null
@@ -283,6 +290,7 @@ export type BookingWhereInput = {
   timezone?: Prisma.StringFilter<"Booking"> | string
   status?: Prisma.StringFilter<"Booking"> | string
   cancelReason?: Prisma.StringNullableFilter<"Booking"> | string | null
+  guestNotes?: Prisma.StringNullableFilter<"Booking"> | string | null
   seatNumber?: Prisma.IntFilter<"Booking"> | number
   meetingLink?: Prisma.StringNullableFilter<"Booking"> | string | null
   meetingProvider?: Prisma.StringNullableFilter<"Booking"> | string | null
@@ -302,6 +310,7 @@ export type BookingOrderByWithRelationInput = {
   timezone?: Prisma.SortOrder
   status?: Prisma.SortOrder
   cancelReason?: Prisma.SortOrderInput | Prisma.SortOrder
+  guestNotes?: Prisma.SortOrderInput | Prisma.SortOrder
   seatNumber?: Prisma.SortOrder
   meetingLink?: Prisma.SortOrderInput | Prisma.SortOrder
   meetingProvider?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -324,6 +333,7 @@ export type BookingWhereUniqueInput = Prisma.AtLeast<{
   timezone?: Prisma.StringFilter<"Booking"> | string
   status?: Prisma.StringFilter<"Booking"> | string
   cancelReason?: Prisma.StringNullableFilter<"Booking"> | string | null
+  guestNotes?: Prisma.StringNullableFilter<"Booking"> | string | null
   seatNumber?: Prisma.IntFilter<"Booking"> | number
   meetingLink?: Prisma.StringNullableFilter<"Booking"> | string | null
   meetingProvider?: Prisma.StringNullableFilter<"Booking"> | string | null
@@ -343,6 +353,7 @@ export type BookingOrderByWithAggregationInput = {
   timezone?: Prisma.SortOrder
   status?: Prisma.SortOrder
   cancelReason?: Prisma.SortOrderInput | Prisma.SortOrder
+  guestNotes?: Prisma.SortOrderInput | Prisma.SortOrder
   seatNumber?: Prisma.SortOrder
   meetingLink?: Prisma.SortOrderInput | Prisma.SortOrder
   meetingProvider?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -368,6 +379,7 @@ export type BookingScalarWhereWithAggregatesInput = {
   timezone?: Prisma.StringWithAggregatesFilter<"Booking"> | string
   status?: Prisma.StringWithAggregatesFilter<"Booking"> | string
   cancelReason?: Prisma.StringNullableWithAggregatesFilter<"Booking"> | string | null
+  guestNotes?: Prisma.StringNullableWithAggregatesFilter<"Booking"> | string | null
   seatNumber?: Prisma.IntWithAggregatesFilter<"Booking"> | number
   meetingLink?: Prisma.StringNullableWithAggregatesFilter<"Booking"> | string | null
   meetingProvider?: Prisma.StringNullableWithAggregatesFilter<"Booking"> | string | null
@@ -384,6 +396,7 @@ export type BookingCreateInput = {
   timezone?: string
   status?: string
   cancelReason?: string | null
+  guestNotes?: string | null
   seatNumber?: number
   meetingLink?: string | null
   meetingProvider?: string | null
@@ -403,6 +416,7 @@ export type BookingUncheckedCreateInput = {
   timezone?: string
   status?: string
   cancelReason?: string | null
+  guestNotes?: string | null
   seatNumber?: number
   meetingLink?: string | null
   meetingProvider?: string | null
@@ -420,6 +434,7 @@ export type BookingUpdateInput = {
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  guestNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seatNumber?: Prisma.IntFieldUpdateOperationsInput | number
   meetingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   meetingProvider?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -439,6 +454,7 @@ export type BookingUncheckedUpdateInput = {
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  guestNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seatNumber?: Prisma.IntFieldUpdateOperationsInput | number
   meetingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   meetingProvider?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -457,6 +473,7 @@ export type BookingCreateManyInput = {
   timezone?: string
   status?: string
   cancelReason?: string | null
+  guestNotes?: string | null
   seatNumber?: number
   meetingLink?: string | null
   meetingProvider?: string | null
@@ -473,6 +490,7 @@ export type BookingUpdateManyMutationInput = {
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  guestNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seatNumber?: Prisma.IntFieldUpdateOperationsInput | number
   meetingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   meetingProvider?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -490,6 +508,7 @@ export type BookingUncheckedUpdateManyInput = {
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  guestNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seatNumber?: Prisma.IntFieldUpdateOperationsInput | number
   meetingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   meetingProvider?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -517,6 +536,7 @@ export type BookingCountOrderByAggregateInput = {
   timezone?: Prisma.SortOrder
   status?: Prisma.SortOrder
   cancelReason?: Prisma.SortOrder
+  guestNotes?: Prisma.SortOrder
   seatNumber?: Prisma.SortOrder
   meetingLink?: Prisma.SortOrder
   meetingProvider?: Prisma.SortOrder
@@ -538,6 +558,7 @@ export type BookingMaxOrderByAggregateInput = {
   timezone?: Prisma.SortOrder
   status?: Prisma.SortOrder
   cancelReason?: Prisma.SortOrder
+  guestNotes?: Prisma.SortOrder
   seatNumber?: Prisma.SortOrder
   meetingLink?: Prisma.SortOrder
   meetingProvider?: Prisma.SortOrder
@@ -555,6 +576,7 @@ export type BookingMinOrderByAggregateInput = {
   timezone?: Prisma.SortOrder
   status?: Prisma.SortOrder
   cancelReason?: Prisma.SortOrder
+  guestNotes?: Prisma.SortOrder
   seatNumber?: Prisma.SortOrder
   meetingLink?: Prisma.SortOrder
   meetingProvider?: Prisma.SortOrder
@@ -636,6 +658,7 @@ export type BookingCreateWithoutEventTypeInput = {
   timezone?: string
   status?: string
   cancelReason?: string | null
+  guestNotes?: string | null
   seatNumber?: number
   meetingLink?: string | null
   meetingProvider?: string | null
@@ -653,6 +676,7 @@ export type BookingUncheckedCreateWithoutEventTypeInput = {
   timezone?: string
   status?: string
   cancelReason?: string | null
+  guestNotes?: string | null
   seatNumber?: number
   meetingLink?: string | null
   meetingProvider?: string | null
@@ -700,6 +724,7 @@ export type BookingScalarWhereInput = {
   timezone?: Prisma.StringFilter<"Booking"> | string
   status?: Prisma.StringFilter<"Booking"> | string
   cancelReason?: Prisma.StringNullableFilter<"Booking"> | string | null
+  guestNotes?: Prisma.StringNullableFilter<"Booking"> | string | null
   seatNumber?: Prisma.IntFilter<"Booking"> | number
   meetingLink?: Prisma.StringNullableFilter<"Booking"> | string | null
   meetingProvider?: Prisma.StringNullableFilter<"Booking"> | string | null
@@ -716,6 +741,7 @@ export type BookingCreateWithoutAnswersInput = {
   timezone?: string
   status?: string
   cancelReason?: string | null
+  guestNotes?: string | null
   seatNumber?: number
   meetingLink?: string | null
   meetingProvider?: string | null
@@ -734,6 +760,7 @@ export type BookingUncheckedCreateWithoutAnswersInput = {
   timezone?: string
   status?: string
   cancelReason?: string | null
+  guestNotes?: string | null
   seatNumber?: number
   meetingLink?: string | null
   meetingProvider?: string | null
@@ -766,6 +793,7 @@ export type BookingUpdateWithoutAnswersInput = {
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  guestNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seatNumber?: Prisma.IntFieldUpdateOperationsInput | number
   meetingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   meetingProvider?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -784,6 +812,7 @@ export type BookingUncheckedUpdateWithoutAnswersInput = {
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  guestNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seatNumber?: Prisma.IntFieldUpdateOperationsInput | number
   meetingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   meetingProvider?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -800,6 +829,7 @@ export type BookingCreateManyEventTypeInput = {
   timezone?: string
   status?: string
   cancelReason?: string | null
+  guestNotes?: string | null
   seatNumber?: number
   meetingLink?: string | null
   meetingProvider?: string | null
@@ -816,6 +846,7 @@ export type BookingUpdateWithoutEventTypeInput = {
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  guestNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seatNumber?: Prisma.IntFieldUpdateOperationsInput | number
   meetingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   meetingProvider?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -833,6 +864,7 @@ export type BookingUncheckedUpdateWithoutEventTypeInput = {
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  guestNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seatNumber?: Prisma.IntFieldUpdateOperationsInput | number
   meetingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   meetingProvider?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -850,6 +882,7 @@ export type BookingUncheckedUpdateManyWithoutEventTypeInput = {
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  guestNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seatNumber?: Prisma.IntFieldUpdateOperationsInput | number
   meetingLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   meetingProvider?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -898,6 +931,7 @@ export type BookingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   timezone?: boolean
   status?: boolean
   cancelReason?: boolean
+  guestNotes?: boolean
   seatNumber?: boolean
   meetingLink?: boolean
   meetingProvider?: boolean
@@ -918,6 +952,7 @@ export type BookingSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   timezone?: boolean
   status?: boolean
   cancelReason?: boolean
+  guestNotes?: boolean
   seatNumber?: boolean
   meetingLink?: boolean
   meetingProvider?: boolean
@@ -936,6 +971,7 @@ export type BookingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   timezone?: boolean
   status?: boolean
   cancelReason?: boolean
+  guestNotes?: boolean
   seatNumber?: boolean
   meetingLink?: boolean
   meetingProvider?: boolean
@@ -954,6 +990,7 @@ export type BookingSelectScalar = {
   timezone?: boolean
   status?: boolean
   cancelReason?: boolean
+  guestNotes?: boolean
   seatNumber?: boolean
   meetingLink?: boolean
   meetingProvider?: boolean
@@ -961,7 +998,7 @@ export type BookingSelectScalar = {
   updatedAt?: boolean
 }
 
-export type BookingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "eventTypeId" | "inviteeName" | "inviteeEmail" | "startTime" | "endTime" | "timezone" | "status" | "cancelReason" | "seatNumber" | "meetingLink" | "meetingProvider" | "createdAt" | "updatedAt", ExtArgs["result"]["booking"]>
+export type BookingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "eventTypeId" | "inviteeName" | "inviteeEmail" | "startTime" | "endTime" | "timezone" | "status" | "cancelReason" | "guestNotes" | "seatNumber" | "meetingLink" | "meetingProvider" | "createdAt" | "updatedAt", ExtArgs["result"]["booking"]>
 export type BookingInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   eventType?: boolean | Prisma.EventTypeDefaultArgs<ExtArgs>
   answers?: boolean | Prisma.Booking$answersArgs<ExtArgs>
@@ -990,6 +1027,7 @@ export type $BookingPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     timezone: string
     status: string
     cancelReason: string | null
+    guestNotes: string | null
     seatNumber: number
     meetingLink: string | null
     meetingProvider: string | null
@@ -1429,6 +1467,7 @@ export interface BookingFieldRefs {
   readonly timezone: Prisma.FieldRef<"Booking", 'String'>
   readonly status: Prisma.FieldRef<"Booking", 'String'>
   readonly cancelReason: Prisma.FieldRef<"Booking", 'String'>
+  readonly guestNotes: Prisma.FieldRef<"Booking", 'String'>
   readonly seatNumber: Prisma.FieldRef<"Booking", 'Int'>
   readonly meetingLink: Prisma.FieldRef<"Booking", 'String'>
   readonly meetingProvider: Prisma.FieldRef<"Booking", 'String'>

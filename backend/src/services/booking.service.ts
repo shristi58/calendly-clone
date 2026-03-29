@@ -187,6 +187,7 @@ export class BookingService {
     startTime: string;
     timezone?: string;
     answers?: { questionId: string; answer: string }[];
+    guestNotes?: string;
   }) {
     const eventType = await EventTypeRepository.findById(data.eventTypeId);
     if (!eventType) throw new AppError(404, 'Event type not found');
@@ -227,6 +228,7 @@ export class BookingService {
           startTime: requestedStartTime,
           endTime: requestedEndTime,
           timezone: data.timezone || 'UTC',
+          guestNotes: data.guestNotes || null,
           ...(data.answers && data.answers.length > 0
             ? {
                 answers: {

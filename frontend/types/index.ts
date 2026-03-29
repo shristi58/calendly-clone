@@ -58,6 +58,7 @@ export interface Booking {
   timezone: string;
   status: "scheduled" | "cancelled" | "rescheduled";
   cancelReason: string | null;
+  guestNotes?: string | null;
   meetingLink: string | null;
   eventType?: { name: string; slug: string; duration: number; color?: string };
   answers?: BookingAnswer[];
@@ -134,6 +135,7 @@ export interface CreateBookingPayload {
   inviteeEmail: string;
   startTime: string; // ISO 8601 UTC
   timezone?: string;
+  guestNotes?: string;
   answers?: { questionId: string; answer: string }[];
 }
 

@@ -58,6 +58,7 @@ export default function SchedulingPage() {
   const [activeTab, setActiveTab] = useState("Event types");
   const [searchQuery, setSearchQuery] = useState("");
   const [showCreateDialog, setShowCreateDialog] = useState(false);
+  const [editingEvent, setEditingEvent] = useState<EventType | null>(null);
 
   useEffect(() => {
     fetchEvents();
@@ -109,6 +110,22 @@ export default function SchedulingPage() {
               <DialogTitle>Create Event Type</DialogTitle>
             </DialogHeader>
             <EventForm mode="create" onSuccess={() => { setShowCreateDialog(false); fetchEvents(); }} />
+          </DialogContent>
+        </Dialog>
+
+        <Dialog open={editingEvent !== null} onOpenChange={(open) => !open && setEditingEvent(null)}>
+          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>Edit Event Type</DialogTitle>
+            </DialogHeader>
+            {editingEvent && (
+              <EventForm
+                key={editingEvent.id}
+                event={editingEvent}
+                mode="edit"
+                onSuccess={() => { setEditingEvent(null); fetchEvents(); }}
+              />
+            )}
           </DialogContent>
         </Dialog>
       </div>
@@ -237,7 +254,7 @@ export default function SchedulingPage() {
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
                         <DropdownMenuGroup>
-                          <DropdownMenuItem className="gap-2">
+                          <DropdownMenuItem className="gap-2" onClick={() => setEditingEvent(event)}>
                             <Pencil className="size-4" />
                             Edit
                           </DropdownMenuItem>
