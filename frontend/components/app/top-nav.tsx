@@ -11,7 +11,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { UserPlus, User, Star, Link, Settings, BookOpen, MessageSquare, ExternalLink, LogOut } from "lucide-react";
+import { UserPlus, User, Star, Link as LinkIcon, Settings, BookOpen, MessageSquare, ExternalLink, LogOut } from "lucide-react";
+import Link from "next/link";
 
 export function TopNav() {
   const { user, logout } = useAuthStore();
@@ -65,16 +66,18 @@ export function TopNav() {
                 Account settings
               </DropdownMenuLabel>
               <DropdownMenuGroup>
-                <DropdownMenuItem className="px-5 py-2.5 hover:bg-[#F2F2F2] cursor-pointer text-[#1A1A1A] font-medium">
-                  <User className="mr-3 size-[18px]" strokeWidth={2} />
-                  Profile
+                <DropdownMenuItem asChild>
+                  <Link href="/app/personal/profile" className="px-5 py-2.5 hover:bg-[#F2F2F2] cursor-pointer text-[#1A1A1A] font-medium w-full flex items-center">
+                    <User className="mr-3 size-[18px]" strokeWidth={2} />
+                    Profile
+                  </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem className="px-5 py-2.5 hover:bg-[#F2F2F2] cursor-pointer text-[#1A1A1A] font-medium">
                   <Star className="mr-3 size-[18px]" strokeWidth={2} />
                   Branding
                 </DropdownMenuItem>
                 <DropdownMenuItem className="px-5 py-2.5 hover:bg-[#F2F2F2] cursor-pointer text-[#1A1A1A] font-medium">
-                  <Link className="mr-3 size-[18px]" strokeWidth={2} />
+                  <LinkIcon className="mr-3 size-[18px]" strokeWidth={2} />
                   My Link
                 </DropdownMenuItem>
                 <DropdownMenuItem className="px-5 py-2.5 hover:bg-[#F2F2F2] cursor-pointer text-[#1A1A1A] font-medium">

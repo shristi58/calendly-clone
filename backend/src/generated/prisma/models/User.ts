@@ -37,6 +37,9 @@ export type UserMinAggregateOutputType = {
   dateFormat: string | null
   timeFormat: string | null
   country: string | null
+  brandingLogo: string | null
+  useCalendlyBranding: boolean | null
+  emailNotifications: boolean | null
   isOnboarded: boolean | null
   role: string | null
   createdAt: Date | null
@@ -56,6 +59,9 @@ export type UserMaxAggregateOutputType = {
   dateFormat: string | null
   timeFormat: string | null
   country: string | null
+  brandingLogo: string | null
+  useCalendlyBranding: boolean | null
+  emailNotifications: boolean | null
   isOnboarded: boolean | null
   role: string | null
   createdAt: Date | null
@@ -75,6 +81,9 @@ export type UserCountAggregateOutputType = {
   dateFormat: number
   timeFormat: number
   country: number
+  brandingLogo: number
+  useCalendlyBranding: number
+  emailNotifications: number
   isOnboarded: number
   role: number
   createdAt: number
@@ -96,6 +105,9 @@ export type UserMinAggregateInputType = {
   dateFormat?: true
   timeFormat?: true
   country?: true
+  brandingLogo?: true
+  useCalendlyBranding?: true
+  emailNotifications?: true
   isOnboarded?: true
   role?: true
   createdAt?: true
@@ -115,6 +127,9 @@ export type UserMaxAggregateInputType = {
   dateFormat?: true
   timeFormat?: true
   country?: true
+  brandingLogo?: true
+  useCalendlyBranding?: true
+  emailNotifications?: true
   isOnboarded?: true
   role?: true
   createdAt?: true
@@ -134,6 +149,9 @@ export type UserCountAggregateInputType = {
   dateFormat?: true
   timeFormat?: true
   country?: true
+  brandingLogo?: true
+  useCalendlyBranding?: true
+  emailNotifications?: true
   isOnboarded?: true
   role?: true
   createdAt?: true
@@ -226,6 +244,9 @@ export type UserGroupByOutputType = {
   dateFormat: string
   timeFormat: string
   country: string
+  brandingLogo: string | null
+  useCalendlyBranding: boolean
+  emailNotifications: boolean
   isOnboarded: boolean
   role: string | null
   createdAt: Date
@@ -266,6 +287,9 @@ export type UserWhereInput = {
   dateFormat?: Prisma.StringFilter<"User"> | string
   timeFormat?: Prisma.StringFilter<"User"> | string
   country?: Prisma.StringFilter<"User"> | string
+  brandingLogo?: Prisma.StringNullableFilter<"User"> | string | null
+  useCalendlyBranding?: Prisma.BoolFilter<"User"> | boolean
+  emailNotifications?: Prisma.BoolFilter<"User"> | boolean
   isOnboarded?: Prisma.BoolFilter<"User"> | boolean
   role?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
@@ -290,6 +314,9 @@ export type UserOrderByWithRelationInput = {
   dateFormat?: Prisma.SortOrder
   timeFormat?: Prisma.SortOrder
   country?: Prisma.SortOrder
+  brandingLogo?: Prisma.SortOrderInput | Prisma.SortOrder
+  useCalendlyBranding?: Prisma.SortOrder
+  emailNotifications?: Prisma.SortOrder
   isOnboarded?: Prisma.SortOrder
   role?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -317,6 +344,9 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   dateFormat?: Prisma.StringFilter<"User"> | string
   timeFormat?: Prisma.StringFilter<"User"> | string
   country?: Prisma.StringFilter<"User"> | string
+  brandingLogo?: Prisma.StringNullableFilter<"User"> | string | null
+  useCalendlyBranding?: Prisma.BoolFilter<"User"> | boolean
+  emailNotifications?: Prisma.BoolFilter<"User"> | boolean
   isOnboarded?: Prisma.BoolFilter<"User"> | boolean
   role?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
@@ -341,6 +371,9 @@ export type UserOrderByWithAggregationInput = {
   dateFormat?: Prisma.SortOrder
   timeFormat?: Prisma.SortOrder
   country?: Prisma.SortOrder
+  brandingLogo?: Prisma.SortOrderInput | Prisma.SortOrder
+  useCalendlyBranding?: Prisma.SortOrder
+  emailNotifications?: Prisma.SortOrder
   isOnboarded?: Prisma.SortOrder
   role?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -366,6 +399,9 @@ export type UserScalarWhereWithAggregatesInput = {
   dateFormat?: Prisma.StringWithAggregatesFilter<"User"> | string
   timeFormat?: Prisma.StringWithAggregatesFilter<"User"> | string
   country?: Prisma.StringWithAggregatesFilter<"User"> | string
+  brandingLogo?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  useCalendlyBranding?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  emailNotifications?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   isOnboarded?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   role?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
@@ -385,6 +421,9 @@ export type UserCreateInput = {
   dateFormat?: string
   timeFormat?: string
   country?: string
+  brandingLogo?: string | null
+  useCalendlyBranding?: boolean
+  emailNotifications?: boolean
   isOnboarded?: boolean
   role?: string | null
   createdAt?: Date | string
@@ -409,6 +448,9 @@ export type UserUncheckedCreateInput = {
   dateFormat?: string
   timeFormat?: string
   country?: string
+  brandingLogo?: string | null
+  useCalendlyBranding?: boolean
+  emailNotifications?: boolean
   isOnboarded?: boolean
   role?: string | null
   createdAt?: Date | string
@@ -433,6 +475,9 @@ export type UserUpdateInput = {
   dateFormat?: Prisma.StringFieldUpdateOperationsInput | string
   timeFormat?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.StringFieldUpdateOperationsInput | string
+  brandingLogo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  useCalendlyBranding?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isOnboarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -457,6 +502,9 @@ export type UserUncheckedUpdateInput = {
   dateFormat?: Prisma.StringFieldUpdateOperationsInput | string
   timeFormat?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.StringFieldUpdateOperationsInput | string
+  brandingLogo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  useCalendlyBranding?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isOnboarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -481,6 +529,9 @@ export type UserCreateManyInput = {
   dateFormat?: string
   timeFormat?: string
   country?: string
+  brandingLogo?: string | null
+  useCalendlyBranding?: boolean
+  emailNotifications?: boolean
   isOnboarded?: boolean
   role?: string | null
   createdAt?: Date | string
@@ -500,6 +551,9 @@ export type UserUpdateManyMutationInput = {
   dateFormat?: Prisma.StringFieldUpdateOperationsInput | string
   timeFormat?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.StringFieldUpdateOperationsInput | string
+  brandingLogo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  useCalendlyBranding?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isOnboarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -519,6 +573,9 @@ export type UserUncheckedUpdateManyInput = {
   dateFormat?: Prisma.StringFieldUpdateOperationsInput | string
   timeFormat?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.StringFieldUpdateOperationsInput | string
+  brandingLogo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  useCalendlyBranding?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isOnboarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -538,6 +595,9 @@ export type UserCountOrderByAggregateInput = {
   dateFormat?: Prisma.SortOrder
   timeFormat?: Prisma.SortOrder
   country?: Prisma.SortOrder
+  brandingLogo?: Prisma.SortOrder
+  useCalendlyBranding?: Prisma.SortOrder
+  emailNotifications?: Prisma.SortOrder
   isOnboarded?: Prisma.SortOrder
   role?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -557,6 +617,9 @@ export type UserMaxOrderByAggregateInput = {
   dateFormat?: Prisma.SortOrder
   timeFormat?: Prisma.SortOrder
   country?: Prisma.SortOrder
+  brandingLogo?: Prisma.SortOrder
+  useCalendlyBranding?: Prisma.SortOrder
+  emailNotifications?: Prisma.SortOrder
   isOnboarded?: Prisma.SortOrder
   role?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -576,6 +639,9 @@ export type UserMinOrderByAggregateInput = {
   dateFormat?: Prisma.SortOrder
   timeFormat?: Prisma.SortOrder
   country?: Prisma.SortOrder
+  brandingLogo?: Prisma.SortOrder
+  useCalendlyBranding?: Prisma.SortOrder
+  emailNotifications?: Prisma.SortOrder
   isOnboarded?: Prisma.SortOrder
   role?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -686,6 +752,9 @@ export type UserCreateWithoutOauthAccountsInput = {
   dateFormat?: string
   timeFormat?: string
   country?: string
+  brandingLogo?: string | null
+  useCalendlyBranding?: boolean
+  emailNotifications?: boolean
   isOnboarded?: boolean
   role?: string | null
   createdAt?: Date | string
@@ -709,6 +778,9 @@ export type UserUncheckedCreateWithoutOauthAccountsInput = {
   dateFormat?: string
   timeFormat?: string
   country?: string
+  brandingLogo?: string | null
+  useCalendlyBranding?: boolean
+  emailNotifications?: boolean
   isOnboarded?: boolean
   role?: string | null
   createdAt?: Date | string
@@ -748,6 +820,9 @@ export type UserUpdateWithoutOauthAccountsInput = {
   dateFormat?: Prisma.StringFieldUpdateOperationsInput | string
   timeFormat?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.StringFieldUpdateOperationsInput | string
+  brandingLogo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  useCalendlyBranding?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isOnboarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -771,6 +846,9 @@ export type UserUncheckedUpdateWithoutOauthAccountsInput = {
   dateFormat?: Prisma.StringFieldUpdateOperationsInput | string
   timeFormat?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.StringFieldUpdateOperationsInput | string
+  brandingLogo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  useCalendlyBranding?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isOnboarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -794,6 +872,9 @@ export type UserCreateWithoutSessionsInput = {
   dateFormat?: string
   timeFormat?: string
   country?: string
+  brandingLogo?: string | null
+  useCalendlyBranding?: boolean
+  emailNotifications?: boolean
   isOnboarded?: boolean
   role?: string | null
   createdAt?: Date | string
@@ -817,6 +898,9 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   dateFormat?: string
   timeFormat?: string
   country?: string
+  brandingLogo?: string | null
+  useCalendlyBranding?: boolean
+  emailNotifications?: boolean
   isOnboarded?: boolean
   role?: string | null
   createdAt?: Date | string
@@ -856,6 +940,9 @@ export type UserUpdateWithoutSessionsInput = {
   dateFormat?: Prisma.StringFieldUpdateOperationsInput | string
   timeFormat?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.StringFieldUpdateOperationsInput | string
+  brandingLogo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  useCalendlyBranding?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isOnboarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -879,6 +966,9 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   dateFormat?: Prisma.StringFieldUpdateOperationsInput | string
   timeFormat?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.StringFieldUpdateOperationsInput | string
+  brandingLogo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  useCalendlyBranding?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isOnboarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -902,6 +992,9 @@ export type UserCreateWithoutSchedulesInput = {
   dateFormat?: string
   timeFormat?: string
   country?: string
+  brandingLogo?: string | null
+  useCalendlyBranding?: boolean
+  emailNotifications?: boolean
   isOnboarded?: boolean
   role?: string | null
   createdAt?: Date | string
@@ -925,6 +1018,9 @@ export type UserUncheckedCreateWithoutSchedulesInput = {
   dateFormat?: string
   timeFormat?: string
   country?: string
+  brandingLogo?: string | null
+  useCalendlyBranding?: boolean
+  emailNotifications?: boolean
   isOnboarded?: boolean
   role?: string | null
   createdAt?: Date | string
@@ -964,6 +1060,9 @@ export type UserUpdateWithoutSchedulesInput = {
   dateFormat?: Prisma.StringFieldUpdateOperationsInput | string
   timeFormat?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.StringFieldUpdateOperationsInput | string
+  brandingLogo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  useCalendlyBranding?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isOnboarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -987,6 +1086,9 @@ export type UserUncheckedUpdateWithoutSchedulesInput = {
   dateFormat?: Prisma.StringFieldUpdateOperationsInput | string
   timeFormat?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.StringFieldUpdateOperationsInput | string
+  brandingLogo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  useCalendlyBranding?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isOnboarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1010,6 +1112,9 @@ export type UserCreateWithoutTeamLinksInput = {
   dateFormat?: string
   timeFormat?: string
   country?: string
+  brandingLogo?: string | null
+  useCalendlyBranding?: boolean
+  emailNotifications?: boolean
   isOnboarded?: boolean
   role?: string | null
   createdAt?: Date | string
@@ -1033,6 +1138,9 @@ export type UserUncheckedCreateWithoutTeamLinksInput = {
   dateFormat?: string
   timeFormat?: string
   country?: string
+  brandingLogo?: string | null
+  useCalendlyBranding?: boolean
+  emailNotifications?: boolean
   isOnboarded?: boolean
   role?: string | null
   createdAt?: Date | string
@@ -1072,6 +1180,9 @@ export type UserUpdateWithoutTeamLinksInput = {
   dateFormat?: Prisma.StringFieldUpdateOperationsInput | string
   timeFormat?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.StringFieldUpdateOperationsInput | string
+  brandingLogo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  useCalendlyBranding?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isOnboarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1095,6 +1206,9 @@ export type UserUncheckedUpdateWithoutTeamLinksInput = {
   dateFormat?: Prisma.StringFieldUpdateOperationsInput | string
   timeFormat?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.StringFieldUpdateOperationsInput | string
+  brandingLogo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  useCalendlyBranding?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isOnboarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1118,6 +1232,9 @@ export type UserCreateWithoutEventTypesInput = {
   dateFormat?: string
   timeFormat?: string
   country?: string
+  brandingLogo?: string | null
+  useCalendlyBranding?: boolean
+  emailNotifications?: boolean
   isOnboarded?: boolean
   role?: string | null
   createdAt?: Date | string
@@ -1141,6 +1258,9 @@ export type UserUncheckedCreateWithoutEventTypesInput = {
   dateFormat?: string
   timeFormat?: string
   country?: string
+  brandingLogo?: string | null
+  useCalendlyBranding?: boolean
+  emailNotifications?: boolean
   isOnboarded?: boolean
   role?: string | null
   createdAt?: Date | string
@@ -1180,6 +1300,9 @@ export type UserUpdateWithoutEventTypesInput = {
   dateFormat?: Prisma.StringFieldUpdateOperationsInput | string
   timeFormat?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.StringFieldUpdateOperationsInput | string
+  brandingLogo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  useCalendlyBranding?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isOnboarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1203,6 +1326,9 @@ export type UserUncheckedUpdateWithoutEventTypesInput = {
   dateFormat?: Prisma.StringFieldUpdateOperationsInput | string
   timeFormat?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.StringFieldUpdateOperationsInput | string
+  brandingLogo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  useCalendlyBranding?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isOnboarded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1293,6 +1419,9 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   dateFormat?: boolean
   timeFormat?: boolean
   country?: boolean
+  brandingLogo?: boolean
+  useCalendlyBranding?: boolean
+  emailNotifications?: boolean
   isOnboarded?: boolean
   role?: boolean
   createdAt?: boolean
@@ -1318,6 +1447,9 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   dateFormat?: boolean
   timeFormat?: boolean
   country?: boolean
+  brandingLogo?: boolean
+  useCalendlyBranding?: boolean
+  emailNotifications?: boolean
   isOnboarded?: boolean
   role?: boolean
   createdAt?: boolean
@@ -1337,6 +1469,9 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   dateFormat?: boolean
   timeFormat?: boolean
   country?: boolean
+  brandingLogo?: boolean
+  useCalendlyBranding?: boolean
+  emailNotifications?: boolean
   isOnboarded?: boolean
   role?: boolean
   createdAt?: boolean
@@ -1356,13 +1491,16 @@ export type UserSelectScalar = {
   dateFormat?: boolean
   timeFormat?: boolean
   country?: boolean
+  brandingLogo?: boolean
+  useCalendlyBranding?: boolean
+  emailNotifications?: boolean
   isOnboarded?: boolean
   role?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "username" | "name" | "email" | "password" | "timezone" | "avatarUrl" | "welcomeMessage" | "language" | "dateFormat" | "timeFormat" | "country" | "isOnboarded" | "role" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "username" | "name" | "email" | "password" | "timezone" | "avatarUrl" | "welcomeMessage" | "language" | "dateFormat" | "timeFormat" | "country" | "brandingLogo" | "useCalendlyBranding" | "emailNotifications" | "isOnboarded" | "role" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   eventTypes?: boolean | Prisma.User$eventTypesArgs<ExtArgs>
   schedules?: boolean | Prisma.User$schedulesArgs<ExtArgs>
@@ -1396,6 +1534,9 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     dateFormat: string
     timeFormat: string
     country: string
+    brandingLogo: string | null
+    useCalendlyBranding: boolean
+    emailNotifications: boolean
     isOnboarded: boolean
     role: string | null
     createdAt: Date
@@ -1840,6 +1981,9 @@ export interface UserFieldRefs {
   readonly dateFormat: Prisma.FieldRef<"User", 'String'>
   readonly timeFormat: Prisma.FieldRef<"User", 'String'>
   readonly country: Prisma.FieldRef<"User", 'String'>
+  readonly brandingLogo: Prisma.FieldRef<"User", 'String'>
+  readonly useCalendlyBranding: Prisma.FieldRef<"User", 'Boolean'>
+  readonly emailNotifications: Prisma.FieldRef<"User", 'Boolean'>
   readonly isOnboarded: Prisma.FieldRef<"User", 'Boolean'>
   readonly role: Prisma.FieldRef<"User", 'String'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>

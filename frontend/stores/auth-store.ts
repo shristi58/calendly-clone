@@ -28,7 +28,12 @@ interface AuthState {
     dateFormat?: string;
     timeFormat?: string;
     country?: string;
+    username?: string;
+    brandingLogo?: string | null;
+    useCalendlyBranding?: boolean;
+    emailNotifications?: boolean;
   }) => Promise<void>;
+  unlinkOAuthProvider: (provider: string) => Promise<void>;
   initialize: () => void;
 }
 
@@ -124,6 +129,20 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       const message =
         err instanceof Error ? err.message : "Failed to update profile";
       toast.error(message);
+      throw err; // Re-throw to allow component to handle if needed
+    }
+  },
+
+  unlinkOAuthProvider: async (provider: string) => {
+    try {
+      const user = await api.delete<User>(`/auth/oauth/${provider}`);
+      set({ user });
+      toast.success(`${provider} unlinked successfully`);
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : `Failed to unlink ${provider}`;
+      toast.error(message);
+      throw err;
     }
   },
 }));

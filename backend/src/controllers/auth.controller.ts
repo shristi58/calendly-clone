@@ -26,9 +26,54 @@ const USER_SELECT = {
   dateFormat: true,
   timeFormat: true,
   country: true,
+  brandingLogo: true,
+  useCalendlyBranding: true,
+  emailNotifications: true,
+  oauthAccounts: {
+    select: {
+      id: true,
+      provider: true,
+    }
+  }
 };
 
 export class AuthController {
+  /**
+   * POST /auth/check-email
+   * Public. Given an email, returns:
+   *  - exists: false                         → prompt to sign up
+   *  - exists: true, hasPassword: true       → show password field
+   *  - exists: true, hasPassword: false,
+   *    providers: ['google']                 → show "Log in with Google" button
+   */
+  static async checkEmail(req: AuthRequest, res: Response, next: NextFunction) {
+    try {
+      const { email } = req.body;
+      if (!email) throw new AppError(400, 'Email is required');
+
+      const user = await prisma.user.findUnique({
+        where: { email },
+        select: { id: true, password: true, oauthAccounts: { select: { provider: true } } },
+      });
+
+      if (!user) {
+        return res.status(200).json({ status: 'success', data: { exists: false } });
+      }
+
+      const providers = user.oauthAccounts.map((a) => a.provider);
+      return res.status(200).json({
+        status: 'success',
+        data: {
+          exists: true,
+          hasPassword: user.password !== null,
+          providers,
+        },
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
   static async register(req: AuthRequest, res: Response, next: NextFunction) {
     try {
       const { name, email, password, timezone } = req.body;
@@ -117,7 +162,11 @@ export class AuthController {
 
   static async updateProfile(req: AuthRequest, res: Response, next: NextFunction) {
     try {
-      const { name, timezone, avatarUrl, welcomeMessage, language, dateFormat, timeFormat, country } = req.body;
+      const {
+        name, timezone, avatarUrl, welcomeMessage, language, dateFormat, timeFormat, country,
+        username, brandingLogo, useCalendlyBranding, emailNotifications
+      } = req.body;
+      
       const data: Record<string, any> = {};
       if (name !== undefined) data.name = name;
       if (timezone !== undefined) data.timezone = timezone;
@@ -127,6 +176,24 @@ export class AuthController {
       if (dateFormat !== undefined) data.dateFormat = dateFormat;
       if (timeFormat !== undefined) data.timeFormat = timeFormat;
       if (country !== undefined) data.country = country;
+      if (brandingLogo !== undefined) data.brandingLogo = brandingLogo;
+      if (useCalendlyBranding !== undefined) data.useCalendlyBranding = useCalendlyBranding;
+      if (emailNotifications !== undefined) data.emailNotifications = emailNotifications;
+
+      if (username !== undefined) {
+        const lowerUsername = username.toLowerCase();
+        const existing = await prisma.user.findFirst({
+          where: { 
+            username: lowerUsername,
+            NOT: { id: req.userId }
+          }
+        });
+        
+        if (existing) {
+          throw new AppError(409, 'Username is already taken');
+        }
+        data.username = lowerUsername;
+      }
 
       const user = await prisma.user.update({
         where: { id: req.userId },
@@ -268,4 +335,48 @@ export class AuthController {
       next(error);
     }
   }
+
+  /**
+   * DELETE /auth/oauth/:provider
+   * Unlink an OAuth provider from the account
+   */
+  static async unlinkOAuth(req: AuthRequest, res: Response, next: NextFunction) {
+    try {
+      const { provider } = req.params;
+      
+      const user = await prisma.user.findUnique({
+        where: { id: req.userId },
+        include: { oauthAccounts: true },
+      });
+
+      if (!user) {
+        throw new AppError(404, 'User not found');
+      }
+
+      const accountToUnlink = user.oauthAccounts.find((acc) => acc.provider === provider);
+      if (!accountToUnlink) {
+        throw new AppError(404, `No ${provider} account linked`);
+      }
+
+      // Safety check: Cannot unlink if they have no password and this is their ONLY OAuth account.
+      if (!user.password && user.oauthAccounts.length === 1) {
+        throw new AppError(400, 'Cannot unlink your only login method. Please set a password first.');
+      }
+
+      await prisma.oAuthAccount.delete({
+        where: { id: accountToUnlink.id },
+      });
+
+      // Refetch user to return updated oauthAccounts
+      const updatedUser = await prisma.user.findUnique({
+        where: { id: req.userId },
+        select: USER_SELECT,
+      });
+
+      res.status(200).json({ status: 'success', data: updatedUser });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
+

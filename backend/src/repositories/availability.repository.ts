@@ -24,6 +24,10 @@ export class AvailabilityRepository {
     });
   }
 
+  static async update(id: string, data: Prisma.AvailabilityUpdateInput) {
+    return prisma.availability.update({ where: { id }, data });
+  }
+
   static async delete(id: string) {
     return prisma.availability.delete({ where: { id } });
   }

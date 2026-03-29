@@ -12,6 +12,10 @@ export interface User {
   dateFormat?: string;
   timeFormat?: string;
   country?: string;
+  brandingLogo?: string | null;
+  useCalendlyBranding?: boolean;
+  emailNotifications?: boolean;
+  oauthAccounts?: { id: string; provider: string }[];
   createdAt: string;
 }
 

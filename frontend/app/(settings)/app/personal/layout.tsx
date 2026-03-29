@@ -1,10 +1,24 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/use-auth";
 import { useAuthStore } from "@/stores/auth-store";
 import { GlobalLoader } from "@/components/shared/global-loader";
+import {
+  User,
+  Star,
+  Link as LinkIcon,
+  Globe,
+  ListFilter,
+  Lock,
+  Settings,
+  HelpCircle,
+  LogOut,
+  ChevronLeft,
+  UserPlus,
+  ChevronDown,
+} from "lucide-react";
 
 export default function SettingsLayout({
   children,
@@ -12,6 +26,7 @@ export default function SettingsLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const router = useRouter();
   const { isInitialized, isAuthenticated, user } = useAuth({ redirectTo: "/login" });
   const { logout } = useAuthStore();
 
@@ -19,136 +34,149 @@ export default function SettingsLayout({
     return <GlobalLoader />;
   }
 
+  const getInitials = (name: string) =>
+    name.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2);
+
   const accountLinks = [
-    { name: "Profile", href: "/app/personal/profile" },
-    { name: "Branding", href: "/app/personal/branding" },
-    { name: "My Link", href: "/app/personal/my_link" },
+    { name: "Profile", href: "/app/personal/profile", icon: User },
+    { name: "Branding", href: "/app/personal/branding", icon: Star },
+    { name: "My Link", href: "/app/personal/link", icon: LinkIcon },
   ];
 
+  const settingsLinks = [
+    { name: "Communication settings", href: "/app/personal/workflows", icon: Globe },
+    { name: "Login preferences", href: "/app/personal/login_preferences", icon: ListFilter },
+    { name: "Security", href: "/app/personal/security", icon: Lock },
+    { name: "Cookie settings", href: "/app/personal/cookie_settings", icon: Settings },
+  ];
+
+  const handleLogout = async () => {
+    await logout();
+    router.push("/login");
+  };
+
   return (
-    <div className="flex flex-col min-h-screen bg-white text-[#1A1A1A] font-sans selection:bg-[#006BFF] selection:text-white">
-      {/* Top Header */}
-      <header className="h-[68px] border-b border-[#EBEBEB] flex items-center px-4 sm:px-8 bg-white shrink-0 sticky top-0 z-10 w-full">
-        <div className="flex items-center gap-6">
+    <div className="flex flex-col min-h-screen bg-[#F2F4F8] text-[#1A1A1A] font-sans selection:bg-[#006BFF] selection:text-white">
+      {/* Top Header — matches Calendly exactly */}
+      <header className="h-[56px] bg-white border-b border-[#E5E7EB] flex items-center justify-between px-4 sm:px-6 shrink-0 sticky top-0 z-30">
+        <div className="flex items-center gap-4">
+          {/* Calendly Logo */}
           <Link href="/app" className="flex items-center gap-2">
-            <svg
-              width="32"
-              height="32"
-              viewBox="0 0 32 32"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <rect x="2" y="2" width="28" height="28" rx="8" fill="#006BFF" />
-              <path
-                d="M21.5 12C21.5 10.6193 20.3807 9.5 19 9.5C17.6193 9.5 16.5 10.6193 16.5 12C16.5 13.3807 17.6193 14.5 19 14.5C20.3807 14.5 21.5 13.3807 21.5 12Z"
-                fill="white"
-              />
-              <path
-                d="M16 16C16 14.6193 14.8807 13.5 13.5 13.5C12.1193 13.5 11 14.6193 11 16C11 17.3807 12.1193 18.5 13.5 18.5C14.8807 18.5 16 17.3807 16 16Z"
-                fill="white"
-              />
-              <path
-                d="M19 16C19 14.6193 17.8807 13.5 16.5 13.5C15.1193 13.5 14 14.6193 14 16C14 17.3807 15.1193 18.5 16.5 18.5C17.8807 18.5 19 17.3807 19 16Z"
-                fill="white"
-              />
-              <path
-                d="M16 20C16 18.6193 14.8807 17.5 13.5 17.5C12.1193 17.5 11 18.6193 11 20C11 21.3807 12.1193 22.5 13.5 22.5C14.8807 22.5 16 21.3807 16 20Z"
-                fill="white"
-              />
-              <path
-                d="M19 20C19 18.6193 17.8807 17.5 16.5 17.5C15.1193 17.5 14 18.6193 14 20C14 21.3807 15.1193 22.5 16.5 22.5C17.8807 22.5 19 21.3807 19 20Z"
-                fill="white"
-              />
-              <path
-                d="M13.5 9.5C12.1193 9.5 11 10.6193 11 12C11 13.3807 12.1193 14.5 13.5 14.5C14.8807 14.5 16 13.3807 16 12C16 10.6193 14.8807 9.5 13.5 9.5Z"
-                fill="white"
-              />
+            <svg width="120" height="28" viewBox="0 0 120 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="14" cy="14" r="12" stroke="#006BFF" strokeWidth="2.5" fill="none" />
+              <circle cx="14" cy="14" r="5" fill="#006BFF" />
+              <text x="34" y="20" fontFamily="system-ui, -apple-system, sans-serif" fontSize="18" fontWeight="700" fill="#006BFF">Calendly</text>
             </svg>
           </Link>
-          <div className="h-4 w-px bg-[#EBEBEB]"></div>
-          <Link
-            href="/app"
-            className="text-[#006BFF] text-[15px] font-medium hover:text-[#005BE6] transition-colors flex items-center gap-1.5"
-          >
-            <svg viewBox="0 0 24 24" fill="none" className="w-[18px] h-[18px]">
-              <path
-                d="M15 18L9 12L15 6"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            Back to home
-          </Link>
+        </div>
+
+        {/* Right side — invite + avatar */}
+        <div className="flex items-center gap-3">
+          <button className="p-2 text-[#4D5562] hover:text-[#1A1A1A] hover:bg-[#F2F4F8] rounded-lg transition-colors">
+            <UserPlus className="size-5" strokeWidth={1.5} />
+          </button>
+          <button className="flex items-center gap-1.5 pl-1 pr-0.5 py-0.5 hover:bg-[#F2F4F8] rounded-lg transition-colors">
+            <div className="size-8 rounded-full bg-[#E1EAFF] flex items-center justify-center text-[#006BFF] text-sm font-semibold">
+              {user ? getInitials(user.name) : "?"}
+            </div>
+            <ChevronDown className="size-4 text-[#4D5562]" strokeWidth={1.5} />
+          </button>
         </div>
       </header>
 
       {/* Main Content Area */}
-      <div className="flex flex-1 max-w-[1240px] w-full mx-auto animate-in fade-in duration-500">
+      <div className="flex flex-1 w-full">
         
-        {/* Sidebar */}
-        <aside className="w-[280px] shrink-0 p-8 hidden md:block">
-          <h1 className="text-[22px] font-bold text-[#1A1A1A] mb-6">
-            Account settings
-          </h1>
-          
-          <nav className="flex flex-col gap-1">
-            <div className="mb-4">
-              <h2 className="text-[13px] font-bold text-[#1A1A1A] uppercase tracking-wider mb-2 px-3">
-                Account
-              </h2>
-              <ul className="flex flex-col">
-                {accountLinks.map((link) => {
-                  const isActive = pathname === link.href;
-                  return (
-                    <li key={link.name}>
-                      <Link
-                        href={link.href}
-                        className={`block px-3 py-2 rounded-md text-[15px] transition-colors ${
-                          isActive
-                            ? "font-medium bg-[#E5F1FF] text-[#006BFF]"
-                            : "text-[#1A1A1A] hover:bg-[#F2F2F2]"
-                        }`}
-                      >
-                        {link.name}
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-            
-            <Link href="#" className="px-3 py-2 text-[15px] text-[#1A1A1A] hover:bg-[#F2F2F2] rounded-md transition-colors block">
-              Communication settings
-            </Link>
-            <Link href="#" className="px-3 py-2 text-[15px] text-[#1A1A1A] hover:bg-[#F2F2F2] rounded-md transition-colors block">
-              Login preferences
-            </Link>
-            <Link href="#" className="px-3 py-2 text-[15px] text-[#1A1A1A] hover:bg-[#F2F2F2] rounded-md transition-colors block">
-              Security
-            </Link>
-            <Link href="#" className="px-3 py-2 text-[15px] text-[#1A1A1A] hover:bg-[#F2F2F2] rounded-md transition-colors block">
-              Cookie settings
-            </Link>
-            
-            <div className="my-2 border-t border-[#EBEBEB]"></div>
-            
-            <Link href="#" className="px-3 py-2 text-[15px] text-[#1A1A1A] hover:bg-[#F2F2F2] rounded-md transition-colors block">
-              Help
-            </Link>
-            <button 
-              onClick={logout}
-              className="w-full text-left px-3 py-2 text-[15px] text-[#1A1A1A] hover:bg-[#F2F2F2] rounded-md transition-colors block"
+        {/* Sidebar — exact match to Calendly */}
+        <aside className="w-[240px] shrink-0 bg-white border-r border-[#E5E7EB] hidden md:flex flex-col justify-between py-5 px-3">
+          <div>
+            {/* Back to home */}
+            <Link
+              href="/app"
+              className="flex items-center gap-1 text-[#006BFF] text-[14px] font-medium hover:text-[#0055CC] transition-colors mb-5 px-2"
             >
+              <ChevronLeft className="size-4" strokeWidth={2} />
+              Back to home
+            </Link>
+
+            {/* Account settings heading */}
+            <h1 className="text-[16px] font-bold text-[#1A1A1A] mb-4 px-2">
+              Account settings
+            </h1>
+
+            {/* Account section */}
+            <p className="text-[12px] font-semibold text-[#6B7280] uppercase tracking-wider mb-1.5 px-3">
+              Account
+            </p>
+
+            <nav className="flex flex-col gap-0.5 mb-3">
+              {accountLinks.map((link) => {
+                const isActive = pathname === link.href;
+                const IconComp = link.icon;
+                return (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-[14px] transition-all duration-150 ${
+                      isActive
+                        ? "font-semibold bg-[#E1EAFF] text-[#006BFF]"
+                        : "text-[#4D5562] hover:bg-[#F3F4F6] font-medium"
+                    }`}
+                  >
+                    <IconComp className="size-[18px]" strokeWidth={isActive ? 2 : 1.5} />
+                    {link.name}
+                  </Link>
+                );
+              })}
+            </nav>
+
+            {/* Settings links */}
+            <nav className="flex flex-col gap-0.5">
+              {settingsLinks.map((link) => {
+                const isActive = pathname === link.href;
+                const IconComp = link.icon;
+                return (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-[14px] transition-all duration-150 ${
+                      isActive
+                        ? "font-semibold bg-[#E1EAFF] text-[#006BFF]"
+                        : "text-[#4D5562] hover:bg-[#F3F4F6] font-medium"
+                    }`}
+                  >
+                    <IconComp className="size-[18px]" strokeWidth={isActive ? 2 : 1.5} />
+                    {link.name}
+                  </Link>
+                );
+              })}
+            </nav>
+          </div>
+
+          {/* Bottom: Help + Logout */}
+          <div className="flex flex-col gap-0.5 border-t border-[#E5E7EB] pt-3 mt-3">
+            <button
+              className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[14px] text-[#4D5562] hover:bg-[#F3F4F6] font-medium transition-colors w-full text-left"
+            >
+              <HelpCircle className="size-[18px]" strokeWidth={1.5} />
+              Help
+              <ChevronDown className="size-3.5 ml-auto" strokeWidth={1.5} />
+            </button>
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[14px] text-[#4D5562] hover:bg-[#F3F4F6] font-medium transition-colors w-full text-left"
+            >
+              <LogOut className="size-[18px]" strokeWidth={1.5} />
               Logout
             </button>
-          </nav>
+          </div>
         </aside>
 
         {/* Page Content */}
-        <main className="flex-1 py-8 px-4 sm:px-8 max-w-[800px] w-full">
-          {children}
+        <main className="flex-1 bg-[#F2F4F8] py-8 px-6 sm:px-10 overflow-auto">
+          <div className="max-w-[700px]">
+            {children}
+          </div>
         </main>
       </div>
     </div>

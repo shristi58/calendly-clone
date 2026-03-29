@@ -18,10 +18,14 @@ export const loginSchema = z.object({
 
 export const updateProfileSchema = z.object({
   name: z.string().min(1).max(100).optional(),
+  username: z.string().min(1).max(100).regex(/^[a-zA-Z0-9_-]+$/, 'Username can only contain letters, numbers, underscores, and hyphens').optional(),
   timezone: z.string().max(50).optional(),
   role: z.string().max(100).optional(),
   isOnboarded: z.boolean().optional(),
   avatarUrl: z.string().max(2048).nullable().optional(),
+  brandingLogo: z.string().nullable().optional(), // No strict base64 size limit in zod to prevent freezing parser, check handles in controller if necessary
+  useCalendlyBranding: z.boolean().optional(),
+  emailNotifications: z.boolean().optional(),
   welcomeMessage: z.string().max(500).nullable().optional(),
   language: z.string().max(50).optional(),
   dateFormat: z.string().max(20).optional(),
@@ -93,6 +97,19 @@ export const availabilitySchema = z.object({
   startTime: z.string().regex(timeRegex, 'Invalid time format (HH:mm)'),
   endTime: z.string().regex(timeRegex, 'Invalid time format (HH:mm)'),
 }).refine(data => data.startTime < data.endTime, {
+  message: 'startTime must be before endTime',
+  path: ['endTime'],
+});
+
+export const updateAvailabilitySchema = z.object({
+  startTime: z.string().regex(timeRegex, 'Invalid time format').optional(),
+  endTime: z.string().regex(timeRegex, 'Invalid time format').optional(),
+}).refine(data => {
+  if (data.startTime && data.endTime) {
+    return data.startTime < data.endTime;
+  }
+  return true;
+}, {
   message: 'startTime must be before endTime',
   path: ['endTime'],
 });

@@ -22,12 +22,15 @@ model User {
   timezone       String         @default("UTC")
   
   // Profile settings extensions
-  avatarUrl      String?
-  welcomeMessage String?
-  language       String         @default("English")
-  dateFormat     String         @default("MM/DD/YYYY")
-  timeFormat     String         @default("12h")
-  country        String         @default("United States")
+  avatarUrl           String?
+  welcomeMessage      String?
+  language            String         @default("English")
+  dateFormat          String         @default("MM/DD/YYYY")
+  timeFormat          String         @default("12h")
+  country             String         @default("United States")
+  brandingLogo        String?
+  useCalendlyBranding Boolean        @default(true)
+  emailNotifications  Boolean        @default(true)
 
   eventTypes     EventType[]
   schedules      Schedule[]

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { useAvailabilityStore } from "@/stores/availability-store";
+import { useAuthStore } from "@/stores/auth-store";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -19,6 +20,7 @@ import {
   Copy,
   X,
   AlertTriangle,
+  Globe,
 } from "lucide-react";
 import { toast } from "sonner";
 import type { Schedule, Availability } from "@/types";
@@ -44,6 +46,8 @@ const TIME_OPTIONS = Array.from({ length: 48 }, (_, i) => {
   };
 });
 
+const TIMEZONES = typeof Intl !== "undefined" ? Intl.supportedValuesOf("timeZone") : ["UTC", "America/New_York", "Europe/London", "Asia/Kolkata"];
+
 export default function AvailabilityPage() {
   const {
     schedules,
@@ -53,8 +57,11 @@ export default function AvailabilityPage() {
     setActiveSchedule,
     createSchedule,
     addRule,
+    updateRule,
     deleteRule,
   } = useAvailabilityStore();
+
+  const { user, updateProfile } = useAuthStore();
 
   const [activeTab, setActiveTab] = useState("Schedules");
 
@@ -204,9 +211,31 @@ export default function AvailabilityPage() {
             {/* Weekly Hours */}
             {!isLoading && activeSchedule && (
               <div className="p-6">
-                <h3 className="text-[14px] font-semibold text-[#1A1A1A] mb-4">
-                  Set your weekly hours
-                </h3>
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="text-[14px] font-semibold text-[#1A1A1A]">
+                    Set your weekly hours
+                  </h3>
+                  
+                  {/* Timezone Selector */}
+                  <div className="flex items-center gap-2">
+                    <Globe className="size-4 text-[#666666]" />
+                    <Select
+                      value={user?.timezone || "UTC"}
+                      onValueChange={(v) => updateProfile({ timezone: v })}
+                    >
+                      <SelectTrigger className="border-0 bg-transparent hover:bg-[#F2F2F2] px-2 h-8 shadow-none focus:ring-0 text-[13px] text-[#1A1A1A] font-medium w-fit">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent align="end" className="max-h-[300px]">
+                        {TIMEZONES.map((tz) => (
+                          <SelectItem key={tz} value={tz}>
+                            {tz.replace(/_/g, " ")}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
 
                 <div className="flex flex-col divide-y divide-[#EBEBEB]">
                   {DAYS.map((day) => {
@@ -242,13 +271,40 @@ export default function AvailabilityPage() {
                                 key={rule.id}
                                 className="flex items-center gap-2"
                               >
-                                <span className="text-[14px] text-[#1A1A1A] font-medium min-w-[80px]">
-                                  {formatTime(rule.startTime)}
-                                </span>
-                                <span className="text-[#666666]">–</span>
-                                <span className="text-[14px] text-[#1A1A1A] font-medium min-w-[80px]">
-                                  {formatTime(rule.endTime)}
-                                </span>
+                                <Select
+                                  value={rule.startTime}
+                                  onValueChange={(v) => updateRule(rule.id, { startTime: v })}
+                                >
+                                  <SelectTrigger className="w-[105px] h-10 bg-[#F2F2F2] border-0 outline-none shadow-none focus-visible:ring-2 focus-visible:ring-[#006BFF] hover:bg-[#EBEBEB] transition-colors rounded text-[#1A1A1A] font-medium">
+                                    <SelectValue />
+                                  </SelectTrigger>
+                                  <SelectContent className="max-h-[250px]">
+                                    {TIME_OPTIONS.map((t) => (
+                                      <SelectItem key={t.value} value={t.value}>
+                                        {t.label}
+                                      </SelectItem>
+                                    ))}
+                                  </SelectContent>
+                                </Select>
+
+                                <span className="text-[#666666] px-1">–</span>
+
+                                <Select
+                                  value={rule.endTime}
+                                  onValueChange={(v) => updateRule(rule.id, { endTime: v })}
+                                >
+                                  <SelectTrigger className="w-[105px] h-10 bg-[#F2F2F2] border-0 outline-none shadow-none focus-visible:ring-2 focus-visible:ring-[#006BFF] hover:bg-[#EBEBEB] transition-colors rounded text-[#1A1A1A] font-medium">
+                                    <SelectValue />
+                                  </SelectTrigger>
+                                  <SelectContent className="max-h-[250px]">
+                                    {TIME_OPTIONS.map((t) => (
+                                      <SelectItem key={t.value} value={t.value}>
+                                        {t.label}
+                                      </SelectItem>
+                                    ))}
+                                  </SelectContent>
+                                </Select>
+
                                 <button
                                   onClick={() => deleteRule(rule.id)}
                                   className="ml-2 p-1 text-[#999999] hover:text-destructive transition-colors rounded-full hover:bg-red-50"

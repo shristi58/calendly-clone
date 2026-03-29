@@ -22,6 +22,30 @@ export class AvailabilityController {
     } catch (error) { next(error); }
   }
 
+  static async updateAvailability(req: AuthRequest, res: Response, next: NextFunction) {
+    try {
+      const availability = await prisma.availability.findUnique({
+        where: { id: req.params.id as string },
+        include: { schedule: { select: { userId: true } } },
+      });
+      if (!availability || availability.schedule.userId !== req.userId) {
+        throw new AppError(404, 'Availability not found');
+      }
+      
+      const { startTime, endTime } = req.body;
+      const newStartTime = startTime || availability.startTime;
+      const newEndTime = endTime || availability.endTime;
+      
+      if (newStartTime >= newEndTime) {
+        throw new AppError(400, 'Start time must be before end time');
+      }
+
+      // Ensure no strict overlaps could occur using prisma unique constraint (handled by db directly if needed)
+      const updated = await AvailabilityService.update(req.params.id as string, req.body);
+      res.status(200).json({ status: 'success', data: updated });
+    } catch (error) { next(error); }
+  }
+
   static async deleteAvailability(req: AuthRequest, res: Response, next: NextFunction) {
     try {
       // Ownership check: verify the availability belongs to a schedule owned by this user

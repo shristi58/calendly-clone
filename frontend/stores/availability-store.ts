@@ -23,6 +23,7 @@ interface AvailabilityState {
   deleteSchedule: (id: string) => Promise<void>;
 
   addRule: (data: CreateAvailabilityPayload) => Promise<void>;
+  updateRule: (id: string, data: Partial<CreateAvailabilityPayload>) => Promise<void>;
   deleteRule: (id: string) => Promise<void>;
 
   addOverride: (data: CreateOverridePayload) => Promise<void>;
@@ -111,6 +112,28 @@ export const useAvailabilityStore = create<AvailabilityState>((set, get) => ({
     } catch (err) {
       const message =
         err instanceof Error ? err.message : "Failed to add availability rule";
+      toast.error(message);
+    }
+  },
+
+  updateRule: async (id, data) => {
+    try {
+      const updated = await api.put<Availability>(`/availability/${id}`, data);
+      set({
+        schedules: get().schedules.map((s) =>
+          s.id === updated.scheduleId
+            ? {
+                ...s,
+                availabilities: (s.availabilities || []).map((a) =>
+                  a.id === id ? { ...a, ...updated } : a
+                ),
+              }
+            : s
+        ),
+      });
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "Failed to update availability rule";
       toast.error(message);
     }
   },

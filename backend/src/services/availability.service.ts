@@ -25,6 +25,10 @@ export class AvailabilityService {
     return AvailabilityRepository.findByScheduleId(scheduleId);
   }
 
+  static async update(id: string, data: Prisma.AvailabilityUpdateInput) {
+    return AvailabilityRepository.update(id, data);
+  }
+
   static delete(id: string) {
     return AvailabilityRepository.delete(id);
   }
