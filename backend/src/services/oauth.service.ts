@@ -7,7 +7,7 @@ export class OAuthService {
     return new google.auth.OAuth2(
       process.env.GOOGLE_CLIENT_ID,
       process.env.GOOGLE_CLIENT_SECRET,
-      `${process.env.BASE_URL || 'http://localhost:3000'}/api/oauth/google/callback`
+      process.env.GOOGLE_REDIRECT_URI || `${process.env.BASE_URL || 'http://localhost:3000'}/api/auth/google/callback`
     );
   }
 
@@ -91,7 +91,7 @@ export class OAuthService {
   static getMicrosoftAuthUrl(userId?: string) {
     const tenantId = process.env.MICROSOFT_TENANT_ID || 'common';
     const clientId = process.env.MICROSOFT_CLIENT_ID!;
-    const redirectUri = `${process.env.BASE_URL || 'http://localhost:3000'}/api/oauth/microsoft/callback`;
+    const redirectUri = process.env.MICROSOFT_REDIRECT_URI || `${process.env.BASE_URL || 'http://localhost:3000'}/api/auth/microsoft/callback`;
     const scopes = encodeURIComponent('offline_access Calendars.ReadWrite User.Read');
 
     return `https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/authorize?client_id=${clientId}&response_type=code&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${scopes}&state=${userId || ''}`;
@@ -101,7 +101,7 @@ export class OAuthService {
     const tenantId = process.env.MICROSOFT_TENANT_ID || 'common';
     const clientId = process.env.MICROSOFT_CLIENT_ID!;
     const clientSecret = process.env.MICROSOFT_CLIENT_SECRET!;
-    const redirectUri = `${process.env.BASE_URL || 'http://localhost:3000'}/api/oauth/microsoft/callback`;
+    const redirectUri = process.env.MICROSOFT_REDIRECT_URI || `${process.env.BASE_URL || 'http://localhost:3000'}/api/auth/microsoft/callback`;
 
     const tokenResponse = await fetch(`https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token`, {
       method: 'POST',

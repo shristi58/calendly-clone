@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "postinstall": "prisma generate",
     "dev": "tsx watch src/server.ts",
     "dev:worker": "tsx watch src/jobs/email.worker.ts",
     "build": "tsc",

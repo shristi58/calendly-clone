@@ -10,7 +10,7 @@ import questionRoutes from './questions.js';
 
 const router = Router();
 
-router.use('/oauth', oauthRoutes);
+router.use('/auth', oauthRoutes);
 router.use('/auth', authRoutes);
 router.use('/event-types', eventTypeRoutes);
 router.use('/availability', availabilityRoutes);
