@@ -8,6 +8,7 @@ import routes from './routes/index.js';
 
 export const app = express();
 
+app.set('trust proxy', 1);
 app.use(helmet());
 const isProd = process.env.NODE_ENV === 'production';
 

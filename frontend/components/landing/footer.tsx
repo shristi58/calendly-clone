@@ -78,11 +78,18 @@ export function Footer() {
             © {new Date().getFullYear()} Calendly. All rights reserved.
           </div>
           <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 text-[14px]">
-            {["Privacy", "Terms", "Cookie Settings", "Sitemap"].map((link) => (
-              <a key={link} href="#" className="hover:text-white hover:underline transition-all">
-                {link}
-              </a>
-            ))}
+            <Link href="/legal/privacy-notice" className="hover:text-white hover:underline transition-all">
+              Privacy
+            </Link>
+            <Link href="/legal/terms" className="hover:text-white hover:underline transition-all">
+              Terms
+            </Link>
+            <a href="#" className="hover:text-white hover:underline transition-all">
+              Cookie Settings
+            </a>
+            <a href="#" className="hover:text-white hover:underline transition-all">
+              Sitemap
+            </a>
           </div>
         </div>
       </div>
