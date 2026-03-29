@@ -2,7 +2,6 @@
 
 import { useState, useMemo } from "react";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 import {
   format,
   startOfMonth,
@@ -16,6 +15,7 @@ import {
   subMonths,
   isBefore,
   startOfDay,
+  isToday as checkIsToday,
 } from "date-fns";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -35,90 +35,115 @@ export function BookingCalendar({
 
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(currentMonth);
-  const calendarStart = startOfWeek(monthStart, { weekStartsOn: 1 });
-  const calendarEnd = endOfWeek(monthEnd, { weekStartsOn: 1 });
+  const calendarStart = startOfWeek(monthStart, { weekStartsOn: 0 });
+  const calendarEnd = endOfWeek(monthEnd, { weekStartsOn: 0 });
 
   const calendarDays = useMemo(
     () => eachDayOfInterval({ start: calendarStart, end: calendarEnd }),
-    [calendarStart, calendarEnd]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [calendarStart.toISOString(), calendarEnd.toISOString()]
   );
 
   const isDateAvailable = (date: Date) => {
     if (isBefore(date, today)) return false;
-    if (!availableDates) return !isBefore(date, today);
+    if (!availableDates) return true;
     return availableDates.includes(format(date, "yyyy-MM-dd"));
   };
 
-  const WEEKDAY_HEADERS = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
+  const isPrevDisabled = isSameMonth(currentMonth, today);
+
+  const WEEKDAY_HEADERS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
   return (
-    <div className="flex flex-col gap-4">
-      {/* Month navigation */}
-      <div className="flex items-center justify-between">
-        <h2 className="text-base font-semibold text-foreground">
+    <div className="flex flex-col">
+      {/* Month navigation — Calendly uses bold month name + year with minimal arrows */}
+      <div className="flex items-center justify-between mb-5">
+        <h2 className="text-[16px] font-bold text-[#1A1A1A] tracking-tight">
           {format(currentMonth, "MMMM yyyy")}
         </h2>
-        <div className="flex items-center gap-1">
-          <Button
-            variant="ghost"
-            size="sm"
-            className="size-8 p-0"
-            onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}
-            disabled={isSameMonth(currentMonth, today)}
+        <div className="flex items-center gap-0.5">
+          <button
+            className={cn(
+              "size-8 rounded-full flex items-center justify-center transition-colors",
+              isPrevDisabled
+                ? "text-[#D4D4D4] cursor-not-allowed"
+                : "text-[#1A1A1A] hover:bg-[#F2F2F2]"
+            )}
+            onClick={() => !isPrevDisabled && setCurrentMonth(subMonths(currentMonth, 1))}
+            disabled={isPrevDisabled}
             id="calendar-prev-month"
             aria-label="Previous month"
           >
-            <ChevronLeft className="size-4" />
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="size-8 p-0"
+            <ChevronLeft className="size-5" strokeWidth={2} />
+          </button>
+          <button
+            className="size-8 rounded-full flex items-center justify-center text-[#1A1A1A] hover:bg-[#F2F2F2] transition-colors"
             onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}
             id="calendar-next-month"
             aria-label="Next month"
           >
-            <ChevronRight className="size-4" />
-          </Button>
+            <ChevronRight className="size-5" strokeWidth={2} />
+          </button>
         </div>
       </div>
 
       {/* Weekday headers */}
-      <div className="grid grid-cols-7 gap-0">
+      <div className="grid grid-cols-7 mb-1">
         {WEEKDAY_HEADERS.map((day) => (
           <div
             key={day}
-            className="text-center text-xs font-medium text-muted-foreground py-2"
+            className="text-center text-[11px] font-semibold text-[#8C8C8C] tracking-wider py-1.5"
           >
             {day}
           </div>
         ))}
+      </div>
 
-        {/* Calendar cells */}
+      {/* Calendar grid */}
+      <div className="grid grid-cols-7">
         {calendarDays.map((day) => {
           const isCurrentMonth = isSameMonth(day, currentMonth);
           const isSelected = selectedDate && isSameDay(day, selectedDate);
           const isAvailable = isDateAvailable(day);
-          const isToday = isSameDay(day, today);
+          const isToday = checkIsToday(day);
 
           return (
-            <button
-              key={day.toISOString()}
-              onClick={() => isAvailable && onDateSelect(day)}
-              disabled={!isAvailable || !isCurrentMonth}
-              className={cn(
-                "relative flex items-center justify-center size-10 mx-auto rounded-full text-sm transition-colors duration-100",
-                !isCurrentMonth && "invisible",
-                isCurrentMonth && !isAvailable && "text-muted-foreground/40 cursor-not-allowed",
-                isCurrentMonth && isAvailable && !isSelected && "text-foreground font-semibold hover:bg-primary/10 cursor-pointer",
-                isSelected && "bg-primary text-primary-foreground font-semibold",
-                isToday && !isSelected && "ring-1 ring-primary/30"
-              )}
-              id={`calendar-day-${format(day, "yyyy-MM-dd")}`}
-              aria-label={format(day, "EEEE, MMMM d")}
-            >
-              {format(day, "d")}
-            </button>
+            <div key={day.toISOString()} className="flex items-center justify-center py-[3px]">
+              <button
+                onClick={() => isAvailable && isCurrentMonth && onDateSelect(day)}
+                disabled={!isAvailable || !isCurrentMonth}
+                className={cn(
+                  "relative size-[42px] rounded-full text-[14px] font-medium transition-all duration-150 flex items-center justify-center",
+                  // Hidden if not current month
+                  !isCurrentMonth && "invisible",
+                  // Disabled past days
+                  isCurrentMonth && !isAvailable &&
+                    "text-[#CCCCCC] cursor-not-allowed",
+                  // Available but not selected
+                  isCurrentMonth && isAvailable && !isSelected &&
+                    "text-[#1A1A1A] font-bold hover:bg-[#006BFF]/10 hover:text-[#006BFF] cursor-pointer",
+                  // Selected
+                  isSelected &&
+                    "bg-[#006BFF] text-white font-bold shadow-sm",
+                  // Today indicator (subtle dot underneath)
+                  isToday && !isSelected &&
+                    "text-[#006BFF] font-bold"
+                )}
+                id={`calendar-day-${format(day, "yyyy-MM-dd")}`}
+                aria-label={format(day, "EEEE, MMMM d")}
+              >
+                {format(day, "d")}
+                {/* Today dot */}
+                {isToday && (
+                  <span
+                    className={cn(
+                      "absolute bottom-[5px] left-1/2 -translate-x-1/2 size-[4px] rounded-full",
+                      isSelected ? "bg-white" : "bg-[#006BFF]"
+                    )}
+                  />
+                )}
+              </button>
+            </div>
           );
         })}
       </div>

@@ -4,14 +4,12 @@ import { useState, useEffect, use, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { api } from "@/lib/api";
 import { getTimezone, getTimezoneLabel } from "@/lib/auth";
-import { Separator } from "@/components/ui/separator";
 import { EventDetailsPanel } from "@/components/booking/event-details-panel";
 import { BookingCalendar } from "@/components/booking/calendar";
 import { TimeSlots } from "@/components/booking/time-slots";
 import { BookingForm } from "@/components/booking/booking-form";
 import { CalendarSkeleton, FormSkeleton } from "@/components/shared/loading-skeleton";
 import { format, parseISO } from "date-fns";
-import { Globe } from "lucide-react";
 import { toast } from "sonner";
 import type { EventType, CreateBookingPayload, Booking } from "@/types";
 import type { BookingFormData } from "@/lib/validators";
@@ -153,14 +151,12 @@ export default function BookingPage({
   // Loading state
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-booking-page flex items-center justify-center p-4">
-        <div className="w-full max-w-[1100px] bg-card rounded-2xl shadow-calendly-lg overflow-hidden">
+      <div className="min-h-screen bg-[#F5F5F5] flex items-center justify-center p-4">
+        <div className="w-full max-w-[1100px] bg-white rounded-2xl shadow-xl overflow-hidden border border-[#E5E5E5]">
           <div className="flex flex-col lg:flex-row min-h-[600px]">
-            <div className="w-full lg:w-[320px] p-8">
+            <div className="w-full lg:w-[320px] p-8 border-r border-[#E5E5E5]">
               <FormSkeleton fields={4} />
             </div>
-            <Separator orientation="vertical" className="hidden lg:block" />
-            <Separator className="lg:hidden" />
             <div className="flex-1 p-8">
               <CalendarSkeleton />
             </div>
@@ -173,12 +169,12 @@ export default function BookingPage({
   // Event not found
   if (!event) {
     return (
-      <div className="min-h-screen bg-booking-page flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-xl font-semibold text-foreground mb-2">
+      <div className="min-h-screen bg-[#F5F5F5] flex items-center justify-center">
+        <div className="text-center bg-white p-12 rounded-2xl shadow-xl border border-[#E5E5E5]">
+          <h1 className="text-[20px] font-bold text-[#1A1A1A] mb-2">
             Event not found
           </h1>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-[14px] text-[#666666]">
             This event type doesn&apos;t exist or is no longer available.
           </p>
         </div>
@@ -187,8 +183,8 @@ export default function BookingPage({
   }
 
   return (
-    <div className="min-h-screen bg-booking-page flex items-center justify-center p-4">
-      <div className="w-full max-w-[1100px] bg-card rounded-2xl shadow-calendly-lg overflow-hidden">
+    <div className="min-h-screen bg-[#F5F5F5] flex items-center justify-center p-4">
+      <div className="w-full max-w-[1100px] bg-white rounded-2xl shadow-xl overflow-hidden border border-[#E5E5E5]">
         <div className="flex flex-col lg:flex-row min-h-[600px]">
           {/* Left Panel — Event details */}
           <EventDetailsPanel
@@ -199,16 +195,12 @@ export default function BookingPage({
             onBack={handleBack}
           />
 
-          {/* Vertical divider */}
-          <Separator orientation="vertical" className="hidden lg:block" />
-          <Separator className="lg:hidden" />
-
           {/* Right Panel */}
           <div className="flex-1 p-6 lg:p-8 overflow-y-auto">
             {step === 1 ? (
-              <div className="animate-calendly-fade-in">
+              <div>
                 {/* Heading */}
-                <h2 className="text-lg font-bold text-foreground mb-6">
+                <h2 className="text-[16px] font-bold text-[#1A1A1A] mb-6">
                   Select a Date & Time
                 </h2>
 
@@ -219,12 +211,6 @@ export default function BookingPage({
                       selectedDate={selectedDate}
                       onDateSelect={handleDateSelect}
                     />
-
-                    {/* Timezone */}
-                    <div className="flex items-center gap-2 mt-6 text-sm text-muted-foreground">
-                      <Globe className="size-4" />
-                      <span>{getTimezoneLabel(timezone)}</span>
-                    </div>
                   </div>
 
                   {/* Time slots */}
