@@ -11,7 +11,7 @@ export function CalendarStep({ nextStep }: { nextStep: () => void }) {
 
   const handleConnect = (provider: "google" | "microsoft") => {
     const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
-    window.location.href = `${API_BASE}/oauth/${provider}`;
+    window.location.href = `${API_BASE}/auth/${provider}`;
   };
 
   return (

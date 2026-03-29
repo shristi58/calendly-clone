@@ -34,7 +34,7 @@ export default function LoginPage() {
     const user = await login(data.email, data.password);
     if (user) {
       if (!user.isOnboarded) {
-        router.push("/getting-started?step=4");
+        router.push("/getting-started");
       } else {
         router.push("/app/scheduling/meeting_types/user/me");
       }
@@ -43,7 +43,7 @@ export default function LoginPage() {
   };
 
   const handleOAuthLogin = (provider: "google" | "microsoft") => {
-    window.location.href = `${API_BASE}/oauth/${provider}`;
+    window.location.href = `${API_BASE}/auth/${provider}`;
   };
 
   return (

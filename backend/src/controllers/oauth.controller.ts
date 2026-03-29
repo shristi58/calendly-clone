@@ -32,11 +32,11 @@ export const googleCallback = async (req: AuthRequest, res: Response) => {
     
     // Redirect back to frontend
     const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
-    res.redirect(`${frontendUrl}/auth/callback`);
+    res.redirect(`${frontendUrl}/callback`);
   } catch (error: any) {
     console.error('Google OAuth Error:', error);
     const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
-    res.redirect(`${frontendUrl}/auth/error?message=${encodeURIComponent(error.message)}`);
+    res.redirect(`${frontendUrl}/login?error=${encodeURIComponent(error.message)}`);
   }
 };
 
@@ -64,10 +64,10 @@ export const microsoftCallback = async (req: AuthRequest, res: Response) => {
     setAuthCookies(res, accessToken, refreshToken);
     
     const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
-    res.redirect(`${frontendUrl}/auth/callback`);
+    res.redirect(`${frontendUrl}/callback`);
   } catch (error: any) {
     console.error('Microsoft OAuth Error:', error);
     const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
-    res.redirect(`${frontendUrl}/auth/error?message=${encodeURIComponent(error.message)}`);
+    res.redirect(`${frontendUrl}/login?error=${encodeURIComponent(error.message)}`);
   }
 };

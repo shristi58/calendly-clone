@@ -14,7 +14,7 @@ function CallbackContent() {
     // We just need to fetch the user and redirect.
     fetchMe().then((user) => {
       if (user && !user.isOnboarded) {
-        router.replace("/getting-started?step=4");
+        router.replace("/getting-started");
       } else if (user) {
         router.replace("/app/scheduling/meeting_types/user/me");
       } else {

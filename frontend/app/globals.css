@@ -168,6 +168,18 @@
   html {
     @apply font-sans;
   }
+  /* Ensure all interactive elements show a pointer cursor */
+  a,
+  button,
+  [role="button"],
+  [type="button"],
+  [type="submit"],
+  [type="reset"],
+  label[for],
+  select,
+  summary {
+    cursor: pointer;
+  }
 }
 
 /* ─── Calendly Micro-Animations ───────────────────────────── */

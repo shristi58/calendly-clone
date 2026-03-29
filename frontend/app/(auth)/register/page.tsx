@@ -44,7 +44,7 @@ export default function RegisterPage() {
     const user = await registerUser(data.name, data.email, data.password, timezone);
     if (user) {
       if (!user.isOnboarded) {
-        router.push("/getting-started?step=4");
+        router.push("/getting-started");
       } else {
         router.push("/app/scheduling/meeting_types/user/me");
       }
@@ -53,7 +53,7 @@ export default function RegisterPage() {
   };
 
   const handleOAuthSignup = (provider: "google" | "microsoft") => {
-    window.location.href = `${API_BASE}/oauth/${provider}`;
+    window.location.href = `${API_BASE}/auth/${provider}`;
   };
 
   return (

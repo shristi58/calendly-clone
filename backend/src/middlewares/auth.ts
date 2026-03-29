@@ -49,9 +49,12 @@ export const createRefreshSession = async (
 
 // ── Cookie helpers ────────────────────────────────────────────
 
+// In production the frontend (Vercel) and backend (Render) are on different
+// domains, so we must use sameSite:'none' + secure:true for cookies to attach.
+const cookieSameSite = (): 'lax' | 'none' => (isProd() ? 'none' : 'lax');
+
 const COOKIE_OPTIONS_BASE = {
   httpOnly: true,
-  sameSite: 'lax' as const,
   path: '/',
 };
 
@@ -61,17 +64,19 @@ export function setAuthCookies(
   refreshToken: string
 ) {
   const secure = isProd();
+  const sameSite = cookieSameSite();
 
   res.cookie('accessToken', accessToken, {
     ...COOKIE_OPTIONS_BASE,
     secure,
+    sameSite,
     maxAge: 15 * 60 * 1000, // 15 min
   });
 
   res.cookie('refreshToken', refreshToken, {
     ...COOKIE_OPTIONS_BASE,
     secure,
-    sameSite: 'lax',
+    sameSite,
     path: '/api/auth/refresh', // only sent to the refresh endpoint
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
   });
@@ -79,16 +84,18 @@ export function setAuthCookies(
 
 export function clearAuthCookies(res: Response) {
   const secure = isProd();
+  const sameSite = cookieSameSite();
 
   res.clearCookie('accessToken', {
     ...COOKIE_OPTIONS_BASE,
     secure,
+    sameSite,
   });
 
   res.clearCookie('refreshToken', {
     ...COOKIE_OPTIONS_BASE,
     secure,
-    sameSite: 'lax',
+    sameSite,
     path: '/api/auth/refresh',
   });
 }

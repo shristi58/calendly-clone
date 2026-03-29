@@ -22,11 +22,13 @@ const allowedOrigins = (
 app.use(
     cors({
         origin: (origin, callback) => {
-            if (!isProd && !origin) {
+            // Allow requests with no Origin header (server-side redirects,
+            // same-origin navigations, Postman, health-checks, OAuth redirects).
+            if (!origin) {
                 return callback(null, true);
             }
 
-            if (origin && allowedOrigins.includes(origin)) {
+            if (allowedOrigins.includes(origin)) {
                 return callback(null, true);
             }
 
