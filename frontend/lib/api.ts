@@ -1,6 +1,9 @@
 import { toast } from "sonner";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "/api";
+let API_BASE = process.env.NEXT_PUBLIC_API_URL || "/api";
+if (API_BASE.startsWith("http") && !API_BASE.endsWith("/api")) {
+  API_BASE = API_BASE.replace(/\/$/, "") + "/api";
+}
 
 export class ApiError extends Error {
   status: number;
@@ -11,9 +14,6 @@ export class ApiError extends Error {
   }
 }
 
-// ── Silent refresh mutex ────────────────────────────────────────
-// Ensures only one refresh request runs at a time.
-// All concurrent 401'd requests queue behind it.
 let isRefreshing = false;
 let refreshQueue: Array<{
   resolve: (value: unknown) => void;
