@@ -7,89 +7,195 @@ export function Footer() {
   const columns = [
     {
       title: "Product",
-      links: ["Scheduling", "Availability", "Integrations", "Event Types", "Teams"],
+      links: [
+        "Scheduling automation",
+        "Meeting Notetaker",
+        "Payments",
+        "Customizable availability",
+        "Mobile apps",
+        "Browser extensions",
+        "Meeting routing",
+        "Event Types",
+        "Email & website embeds",
+        "Reminders & follow-ups",
+        "Meeting polls",
+        "Analytics",
+        "Admin management",
+      ],
     },
     {
-      title: "Solutions",
-      links: ["Sales", "Marketing", "Customer Success", "Recruiting", "IT"],
+      title: "Integrations",
+      links: [
+        "Google ecosystem",
+        "Microsoft ecosystem",
+        "Calendars",
+        "Video conferencing",
+        "Payment processors",
+        "Sales & CRM",
+        "Recruiting & ATS",
+        "Email messaging",
+        "Embed Calendly",
+        "Analytics",
+        "API & connectors",
+        "Security & compliance",
+      ],
+    },
+    {
+      title: "Calendly",
+      links: [
+        "Pricing",
+        "Product overview",
+        "Solutions",
+        "For individuals",
+        "For small businesses",
+        "For large companies",
+        "Compare",
+        "Security",
+        "Sign up for free",
+        "Talk to sales",
+        "Get a demo",
+      ],
     },
     {
       title: "Resources",
-      links: ["Blog", "Resource Library", "Developers", "Community", "Tutorials"],
+      links: [
+        "Help center",
+        "Resource center",
+        "Blog",
+        "Customer stories",
+        "Calendly community",
+        "Developer tools",
+        "Release notes",
+      ],
     },
     {
-      title: "About",
-      links: ["About Us", "Careers", "Press", "Partners", "Contact"],
-    },
-    {
-      title: "Support",
-      links: ["Help Center", "API Documentation", "Status", "Security", "GDPR"],
+      title: "Company",
+      links: [
+        "About us",
+        "Leadership",
+        { name: "Careers", badge: "We're hiring!" },
+        "Newsroom",
+        "Become a partner",
+        "Contact us",
+      ],
     },
   ];
 
-  return (
-    <footer className="bg-[#0B3558] border-t border-white/10 text-white pt-24 pb-12">
-      <div className="max-w-[1280px] mx-auto px-6">
-        <div className="grid grid-cols-2 lg:grid-cols-6 gap-x-8 gap-y-16 mb-20 text-blue-100/80">
-          <div className="col-span-2 lg:col-span-1 lg:pr-8">
-            <div className="mb-6 flex flex-col gap-1 text-[13px]">
-              <div className="mb-2">
-                <CalendlyLogo size="sm" />
-              </div>
-              <p className="opacity-70 leading-relaxed mb-6">
-                We take the work out of connecting with others so you can accomplish more.
-              </p>
-            </div>
-            {/* Social Icons (using simple SVGs) */}
-            <div className="flex items-center gap-5 outline-none focus:outline-none">
-              <a href="#" className="opacity-60 hover:opacity-100 hover:text-white transition-opacity outline-none" aria-label="Twitter">
-                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
-              </a>
-              <a href="#" className="opacity-60 hover:opacity-100 hover:text-white transition-opacity outline-none" aria-label="Facebook">
-                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-              </a>
-              <a href="#" className="opacity-60 hover:opacity-100 hover:text-white transition-opacity outline-none" aria-label="LinkedIn">
-                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
-              </a>
-              <a href="#" className="opacity-60 hover:opacity-100 hover:text-white transition-opacity outline-none" aria-label="Instagram">
-                <svg fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24" width="20" height="20"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-              </a>
-            </div>
-          </div>
+  const downloads = [
+    "App Store",
+    "Google Play",
+    "Chrome extension",
+    "Edge extension",
+    "Firefox extension",
+    "Safari extension",
+    "Outlook add-in",
+  ];
 
+  return (
+    <footer className="bg-[#fcfaf9] text-[#0B3558] pt-24 pb-8 flex flex-col items-center">
+      <div className="max-w-[1280px] w-full px-6 flex flex-col items-center">
+        {/* Main Footer Links */}
+        <div className="w-full grid grid-cols-2 md:grid-cols-5 gap-12 mb-20 text-sm">
           {columns.map((col) => (
             <div key={col.title}>
-              <h4 className="text-[17px] font-bold text-white mb-6 uppercase tracking-tight">{col.title}</h4>
+              <h4 className="font-bold text-[#0B3558] mb-6">{col.title}</h4>
               <ul className="flex flex-col gap-4">
-                {col.links.map((link) => (
-                  <li key={link}>
-                    <Link href="#" className="text-[15px] hover:text-white transition-colors">
-                      {link}
-                    </Link>
-                  </li>
-                ))}
+                {col.links.map((link, i) => {
+                  const isObj = typeof link === "object";
+                  const name = isObj ? link.name : link;
+                  const badge = isObj ? link.badge : null;
+                  return (
+                    <li key={i}>
+                      <Link
+                        href="#"
+                        className="text-[#667B9A] hover:text-[#0B3558] transition-colors"
+                      >
+                        {name}
+                        {badge && (
+                          <span className="ml-2 text-[11px] bg-[#E8F1FF] text-[#006BFF] px-2 py-0.5 rounded-full font-medium whitespace-nowrap">
+                            {badge}
+                          </span>
+                        )}
+                      </Link>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           ))}
         </div>
 
-        <div className="border-t border-white/10 pt-10 flex flex-col md:flex-row items-center justify-between gap-6 opacity-60">
-          <div className="text-[14px]">
-            © {new Date().getFullYear()} Calendly. All rights reserved.
+        {/* Downloads and Social */}
+        <div className="w-full flex justify-between items-end mb-12">
+          <div className="flex-1 w-full max-w-4xl">
+            <h4 className="font-bold text-[#0B3558] mb-6">Downloads</h4>
+            <div className="flex flex-wrap gap-2 text-[14px]">
+              {downloads.map((item) => (
+                <Link
+                  key={item}
+                  href="#"
+                  className="flex items-center gap-2 bg-[#F1F3F6] text-[#0B3558] font-medium px-4 py-2.5 rounded-md hover:bg-[#E5E9F0] transition-colors"
+                >
+                  <div className="w-4 h-4 bg-gray-300 rounded-full shrink-0" /> {/* Placeholder for logos */}
+                  {item}
+                </Link>
+              ))}
+            </div>
           </div>
-          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 text-[14px]">
-            <Link href="/legal/privacy-notice" className="hover:text-white hover:underline transition-all">
-              Privacy
+          
+          <div className="flex gap-4">
+            {/* Minimal Social Icons */}
+            {["X", "Facebook", "Instagram", "LinkedIn", "YouTube"].map((social) => (
+              <a
+                key={social}
+                href="#"
+                className="w-8 h-8 rounded-full bg-transparent hover:bg-gray-100 flex items-center justify-center transition-colors"
+                aria-label={social}
+              >
+                <div className="w-4 h-4 bg-[#0B3558] opacity-80" /> {/* Mock social icon */}
+              </a>
+            ))}
+          </div>
+        </div>
+
+        {/* Bottom Banner */}
+        <div className="w-full border-t border-gray-200 pt-8 flex flex-col lg:flex-row items-center justify-between gap-6 text-[13px] text-[#667B9A]">
+          <div className="flex items-center gap-2 text-inherit hover:text-[#0B3558]">
+            <svg
+              className="w-5 h-5 text-current"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span className="font-medium">English</span>
+            <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </div>
+          
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 font-medium">
+            <Link href="/legal/privacy-notice" className="hover:text-[#0B3558] hover:underline">
+              Privacy Policy
             </Link>
-            <Link href="/legal/terms" className="hover:text-white hover:underline transition-all">
-              Terms
+            <Link href="/legal/terms" className="hover:text-[#0B3558] hover:underline">
+              Legal
             </Link>
-            <a href="#" className="hover:text-white hover:underline transition-all">
+            <Link href="#" className="hover:text-[#0B3558] hover:underline">
+              Status
+            </Link>
+            <Link href="#" className="hover:text-[#0B3558] hover:underline">
               Cookie Settings
-            </a>
-            <a href="#" className="hover:text-white hover:underline transition-all">
-              Sitemap
-            </a>
+            </Link>
+            <Link href="#" className="flex items-center gap-2 hover:text-[#0B3558] hover:underline">
+              <div className="w-6 h-3 bg-blue-500 rounded-sm" />
+              Your Privacy Choices
+            </Link>
+          </div>
+
+          <div>
+            Copyright Calendly 2026
           </div>
         </div>
       </div>
