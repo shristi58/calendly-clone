@@ -14,7 +14,7 @@ import { useAuthStore } from "@/stores/auth-store";
 import { loginSchema, type LoginFormData } from "@/lib/validators";
 import { ArrowRight, Loader2 } from "lucide-react";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
+
 
 export default function LoginPage() {
   const router = useRouter();
@@ -33,11 +33,10 @@ export default function LoginPage() {
     setIsSubmitting(true);
     const user = await login(data.email, data.password);
     if (user) {
-      // Force a hard navigation so Zustand initialization runs cleanly on the new page
       if (!user.isOnboarded) {
-        window.location.href = "/getting-started";
+        router.push("/getting-started");
       } else {
-        window.location.href = "/app/scheduling/meeting_types/user/me";
+        router.push("/app/scheduling/meeting_types/user/me");
       }
     } else {
       setIsSubmitting(false);
@@ -45,7 +44,7 @@ export default function LoginPage() {
   };
 
   const handleOAuthLogin = (provider: "google" | "microsoft") => {
-    window.location.href = `${API_BASE}/auth/${provider}`;
+    window.location.href = `/api/auth/${provider}`;
   };
 
   return (

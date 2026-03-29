@@ -2,6 +2,21 @@
 
 import Link from "next/link";
 import { CalendlyLogo } from "@/components/shared/calendly-logo";
+import {
+  FaXTwitter,
+  FaFacebookF,
+  FaInstagram,
+  FaLinkedinIn,
+  FaYoutube,
+  FaApple,
+  FaGooglePlay,
+  FaChrome,
+  FaEdge,
+  FaFirefoxBrowser,
+  FaSafari,
+  FaEnvelope,
+} from "react-icons/fa6";
+import { HiGlobeAlt, HiChevronDown } from "react-icons/hi2";
 
 export function Footer() {
   const columns = [
@@ -82,13 +97,21 @@ export function Footer() {
   ];
 
   const downloads = [
-    "App Store",
-    "Google Play",
-    "Chrome extension",
-    "Edge extension",
-    "Firefox extension",
-    "Safari extension",
-    "Outlook add-in",
+    { name: "App Store", icon: <FaApple className="w-4 h-4" /> },
+    { name: "Google Play", icon: <FaGooglePlay className="w-3.5 h-3.5" /> },
+    { name: "Chrome extension", icon: <FaChrome className="w-4 h-4" /> },
+    { name: "Edge extension", icon: <FaEdge className="w-4 h-4" /> },
+    { name: "Firefox extension", icon: <FaFirefoxBrowser className="w-4 h-4" /> },
+    { name: "Safari extension", icon: <FaSafari className="w-4 h-4" /> },
+    { name: "Outlook add-in", icon: <FaEnvelope className="w-4 h-4" /> },
+  ];
+
+  const socialLinks = [
+    { name: "X", icon: <FaXTwitter className="w-4 h-4" />, href: "#" },
+    { name: "Facebook", icon: <FaFacebookF className="w-4 h-4" />, href: "#" },
+    { name: "Instagram", icon: <FaInstagram className="w-4 h-4" />, href: "#" },
+    { name: "LinkedIn", icon: <FaLinkedinIn className="w-4 h-4" />, href: "#" },
+    { name: "YouTube", icon: <FaYoutube className="w-4 h-4" />, href: "#" },
   ];
 
   return (
@@ -126,33 +149,32 @@ export function Footer() {
         </div>
 
         {/* Downloads and Social */}
-        <div className="w-full flex justify-between items-end mb-12">
+        <div className="w-full flex flex-col lg:flex-row justify-between items-end mb-12 gap-8">
           <div className="flex-1 w-full max-w-4xl">
             <h4 className="font-bold text-[#0B3558] mb-6">Downloads</h4>
             <div className="flex flex-wrap gap-2 text-[14px]">
               {downloads.map((item) => (
                 <Link
-                  key={item}
+                  key={item.name}
                   href="#"
-                  className="flex items-center gap-2 bg-[#F1F3F6] text-[#0B3558] font-medium px-4 py-2.5 rounded-md hover:bg-[#E5E9F0] transition-colors"
+                  className="flex items-center gap-2.5 bg-[#F1F3F6] text-[#0B3558] font-medium px-4 py-2.5 rounded-md hover:bg-[#E5E9F0] transition-colors"
                 >
-                  <div className="w-4 h-4 bg-gray-300 rounded-full shrink-0" /> {/* Placeholder for logos */}
-                  {item}
+                  <span className="text-[#476788]">{item.icon}</span>
+                  {item.name}
                 </Link>
               ))}
             </div>
           </div>
           
-          <div className="flex gap-4">
-            {/* Minimal Social Icons */}
-            {["X", "Facebook", "Instagram", "LinkedIn", "YouTube"].map((social) => (
+          <div className="flex gap-3">
+            {socialLinks.map((social) => (
               <a
-                key={social}
-                href="#"
-                className="w-8 h-8 rounded-full bg-transparent hover:bg-gray-100 flex items-center justify-center transition-colors"
-                aria-label={social}
+                key={social.name}
+                href={social.href}
+                className="w-9 h-9 rounded-full bg-transparent hover:bg-[#E5E9F0] flex items-center justify-center transition-colors text-[#0B3558]/80 hover:text-[#0B3558]"
+                aria-label={social.name}
               >
-                <div className="w-4 h-4 bg-[#0B3558] opacity-80" /> {/* Mock social icon */}
+                {social.icon}
               </a>
             ))}
           </div>
@@ -160,19 +182,10 @@ export function Footer() {
 
         {/* Bottom Banner */}
         <div className="w-full border-t border-gray-200 pt-8 flex flex-col lg:flex-row items-center justify-between gap-6 text-[13px] text-[#667B9A]">
-          <div className="flex items-center gap-2 text-inherit hover:text-[#0B3558]">
-            <svg
-              className="w-5 h-5 text-current"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
+          <div className="flex items-center gap-2 text-inherit hover:text-[#0B3558] cursor-pointer transition-colors">
+            <HiGlobeAlt className="w-5 h-5" />
             <span className="font-medium">English</span>
-            <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
+            <HiChevronDown className="w-3 h-3" />
           </div>
           
           <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 font-medium">
@@ -189,13 +202,17 @@ export function Footer() {
               Cookie Settings
             </Link>
             <Link href="#" className="flex items-center gap-2 hover:text-[#0B3558] hover:underline">
-              <div className="w-6 h-3 bg-blue-500 rounded-sm" />
+              <svg width="24" height="12" viewBox="0 0 30 14" className="shrink-0">
+                <rect width="30" height="14" rx="7" fill="#006BFF" />
+                <circle cx="8" cy="7" r="4.5" fill="white" />
+                <circle cx="22" cy="7" r="4.5" fill="white" opacity="0.5" />
+              </svg>
               Your Privacy Choices
             </Link>
           </div>
 
           <div>
-            Copyright Calendly 2026
+            Copyright Calendly {new Date().getFullYear()}
           </div>
         </div>
       </div>

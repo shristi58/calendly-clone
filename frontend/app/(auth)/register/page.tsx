@@ -15,7 +15,7 @@ import { registerSchema, type RegisterFormData } from "@/lib/validators";
 import { getTimezone } from "@/lib/auth";
 import { ArrowRight, Check, Loader2 } from "lucide-react";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
+
 
 const FEATURES = [
   "Multi-person and co-hosted meetings",
@@ -53,7 +53,7 @@ export default function RegisterPage() {
   };
 
   const handleOAuthSignup = (provider: "google" | "microsoft") => {
-    window.location.href = `${API_BASE}/auth/${provider}`;
+    window.location.href = `/api/auth/${provider}`;
   };
 
   return (

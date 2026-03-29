@@ -11,7 +11,16 @@ export default function GettingStartedPage() {
   const searchParams = useSearchParams();
   const user = useAuthStore((s) => s.user);
   const isInitialized = useAuthStore((s) => s.isInitialized);
+  const initialize = useAuthStore((s) => s.initialize);
   const [isReady, setIsReady] = useState(false);
+
+  // Trigger initialization on mount — essential for hard navigations
+  // where the Zustand store has been reset
+  useEffect(() => {
+    if (!isInitialized) {
+      initialize();
+    }
+  }, [isInitialized, initialize]);
 
   useEffect(() => {
     if (isInitialized) {
