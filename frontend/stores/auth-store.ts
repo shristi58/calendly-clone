@@ -54,7 +54,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         email,
         password,
       });
-      set({ user: data.user });
+      set({ user: data.user, isInitialized: true });
       toast.success(`Welcome back, ${data.user.name}!`);
       return data.user;
     } catch (err) {
@@ -77,7 +77,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         password,
         timezone,
       });
-      set({ user: data.user });
+      set({ user: data.user, isInitialized: true });
       toast.success("Account created successfully!");
       return data.user;
     } catch (err) {

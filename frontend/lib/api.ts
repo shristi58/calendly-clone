@@ -1,8 +1,9 @@
 import { toast } from "sonner";
 
-let API_BASE = process.env.NEXT_PUBLIC_API_URL || "/api";
-if (API_BASE.startsWith("http") && !API_BASE.endsWith("/api")) {
-  API_BASE = API_BASE.replace(/\/$/, "") + "/api";
+let API_BASE = "/api";
+if (typeof window === "undefined") {
+  const host = process.env.NEXT_PUBLIC_FRONTEND_URL || "http://localhost:3000";
+  API_BASE = `${host}/api`;
 }
 
 export class ApiError extends Error {

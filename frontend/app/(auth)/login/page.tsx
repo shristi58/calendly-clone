@@ -33,13 +33,15 @@ export default function LoginPage() {
     setIsSubmitting(true);
     const user = await login(data.email, data.password);
     if (user) {
+      // Force a hard navigation so Zustand initialization runs cleanly on the new page
       if (!user.isOnboarded) {
-        router.push("/getting-started");
+        window.location.href = "/getting-started";
       } else {
-        router.push("/app/scheduling/meeting_types/user/me");
+        window.location.href = "/app/scheduling/meeting_types/user/me";
       }
+    } else {
+      setIsSubmitting(false);
     }
-    setIsSubmitting(false);
   };
 
   const handleOAuthLogin = (provider: "google" | "microsoft") => {

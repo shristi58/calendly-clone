@@ -9,13 +9,6 @@ export default function proxy(request: NextRequest) {
   const url = request.nextUrl.clone();
   const { pathname } = url;
 
-  // 1. API proxy rewriting — forward to backend (cookies pass through automatically)
-  if (pathname.startsWith('/api/')) {
-    const backendUrl = new URL(pathname + url.search, 'http://localhost:8000');
-    return NextResponse.rewrite(backendUrl);
-  }
-
-  // 2. Client-side authentication checks via httpOnly cookie
   const accessToken = request.cookies.get('accessToken')?.value;
   const isPublicRoute = publicRoutes.some(route => pathname.startsWith(route));
   const isPrivateRoute = privateRoutePrefixes.some(prefix => pathname.startsWith(prefix));
